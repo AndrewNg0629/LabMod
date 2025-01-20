@@ -1,0 +1,58 @@
+{
+    "mod_enabled": true,
+    "tweaks_enabled": true,
+    "server_play_support_enabled": true,
+    "classpath_validation": {
+        "enabled": true,
+        "classpath_list": [
+            "online.andrew2007.mythic.MythicworldTweaks"
+        ]
+    },
+    "binary_toggle_tweaks": {
+        "throwable_fire_charge": true,
+        "large_fire_charge": true,
+        "editable_player_data": true,
+        "blocks_friendly_creepers": true,
+        "item_explosion_resistance": true,
+        "nestable_shulker_boxes": true,
+        "rideable_players": true,
+        "player_riding_gestures": true,
+        "player_riding_protection": true,
+        "dispensable_tridents": true,
+        "void_returnable_trident": true,
+        "multi_trident_damage": true,
+        "persistent_tridents": true,
+        "silent_wardens": true,
+        "constant_villager_conversion": true
+    },
+    "params_required_tweaks": {
+        "auto_discarding_fire_ball": {
+            "enabled": true,
+            "max_life_ticks": 200
+        },
+        "stuffed_shulker_box_stack_limit": {
+            "enabled": true,
+            "max_stack_size": 1
+        },
+        "shulker_box_nesting_limit": {
+            "enabled": true,
+            "max_layers": 2
+        },
+        "warden_attributes_weakening": {
+            "enabled": true,
+            "max_health": 500.0,
+            "knock_back_resistance": 1.0,
+            "melee_attack_damage": 30.0,
+            "melee_attack_knock_back": 1.5,
+            "idle_movement_speed": 0.3,
+            "chasing_movement_speed": 1.2,
+            "attack_interval_ticks": 18
+        },
+        "warden_sonic_boom_weakening": {
+            "enabled": true,
+            "sonic_boom_damage": 10.0,
+            "sonic_boom_knock_back_rate": 1.0,
+            "sonic_boom_interval_ticks": 34
+        }
+    }
+}
