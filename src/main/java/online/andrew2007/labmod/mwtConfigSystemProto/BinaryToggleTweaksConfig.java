@@ -14,7 +14,7 @@ public record BinaryToggleTweaksConfig(
         boolean editablePlayerData,
         boolean blocksFriendlyCreepers,
         boolean itemExplosionResistance,
-        boolean nestableShulkerBlocks,
+        boolean nestableShulkerBoxes,
         boolean rideablePlayers,
         boolean playerRidingGestures,
         boolean playerRidingProtection,
