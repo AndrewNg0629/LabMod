@@ -14,7 +14,9 @@ public interface CustomJsonDeserializer<T> extends JsonDeserializer<T> {
         }
         return jsonPrimitive.getAsBoolean();
     }
-    default Identifier parseIdentifier(JsonElement jsonElement) throws JsonParseException {
+    default Identifier parseItemIdentifier(JsonElement jsonElement) throws JsonParseException {
+        String rawIdentity = jsonElement.getAsString();
+
         return null;
     }
 }
