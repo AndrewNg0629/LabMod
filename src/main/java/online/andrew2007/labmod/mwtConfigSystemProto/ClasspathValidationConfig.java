@@ -9,7 +9,6 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Set;
 
-
 public record ClasspathValidationConfig(boolean enabled, String[] classPathList) {
     public static class Deserializer implements CustomJsonDeserializer<ClasspathValidationConfig> {
         @Override

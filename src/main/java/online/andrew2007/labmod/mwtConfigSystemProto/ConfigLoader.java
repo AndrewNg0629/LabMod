@@ -6,18 +6,19 @@ import com.google.gson.GsonBuilder;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
-
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import online.andrew2007.labmod.LabMod;
+import online.andrew2007.labmod.Main;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.Objects;
 
+
 public class ConfigLoader {
-    private static boolean initState = false;
-    private static ImmutableMap<Identifier, Item> allItems;
-    private static ImmutableMap<Identifier, RegistryEntry<StatusEffect>> allStatusEffects;
     public static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(ModConfig.class, new ModConfig.Deserializer())
             .registerTypeAdapter(ClasspathValidationConfig.class, new ClasspathValidationConfig.Deserializer())
@@ -28,40 +29,57 @@ public class ConfigLoader {
             .registerTypeAdapter(ParamsRequiredTweaksConfig.ShulkerBoxNestingLimitConfig.class, new ParamsRequiredTweaksConfig.ShulkerBoxNestingLimitConfig.Deserializer())
             .registerTypeAdapter(ParamsRequiredTweaksConfig.WardenAttributesWeakeningConfig.class, new ParamsRequiredTweaksConfig.WardenAttributesWeakeningConfig.Deserializer())
             .registerTypeAdapter(ParamsRequiredTweaksConfig.WardenSonicBoomWeakeningConfig.class, new ParamsRequiredTweaksConfig.WardenSonicBoomWeakeningConfig.Deserializer())
+            .registerTypeAdapter(ItemEditorConfig.class, new ItemEditorConfig.Deserializer())
+            .registerTypeAdapter(ItemEditorConfig.ItemEditorConfigUnit.class, new ItemEditorConfig.ItemEditorConfigUnit.Deserializer())
+            .registerTypeAdapter(ItemEditorConfig.FoodProperty.class, new ItemEditorConfig.FoodProperty.Deserializer())
+            .registerTypeAdapter(ItemEditorConfig.FoodStatusEffectUnit.class, new ItemEditorConfig.FoodStatusEffectUnit.Deserializer())
             .setPrettyPrinting()
             .create();
+    private static boolean initState = false;
+    private static ImmutableMap<Identifier, Item> allItems;
+    private static ImmutableMap<Identifier, RegistryEntry<StatusEffect>> allStatusEffects;
+
     public static void onModInit() {
-        LabMod.LOGGER.info("Config system initialization starts!");
-        initState = true;
+        if (!initState) {
+            LabMod.LOGGER.info("Config system initialization starts!");
+            initState = true;
 
-        ImmutableMap.Builder<Identifier, Item> itemMapBuilder = ImmutableMap.builder();
-        for (Item item : Registries.ITEM) {
-            itemMapBuilder.put(Registries.ITEM.getId(item), item);
-        }
-        allItems = itemMapBuilder.build();
+            ImmutableMap.Builder<Identifier, Item> itemMapBuilder = ImmutableMap.builder();
+            for (Item item : Registries.ITEM) {
+                itemMapBuilder.put(Registries.ITEM.getId(item), item);
+            }
+            allItems = itemMapBuilder.build();
 
-        ImmutableMap.Builder<Identifier, RegistryEntry<StatusEffect>> effectMapBuilder = ImmutableMap.builder();
-        for (StatusEffect statusEffect : Registries.STATUS_EFFECT) {
-            effectMapBuilder.put(Objects.requireNonNull(Registries.STATUS_EFFECT.getId(statusEffect), "Error initializing config system!"),
-                    Registries.STATUS_EFFECT.getEntry(statusEffect)
-            );
+            ImmutableMap.Builder<Identifier, RegistryEntry<StatusEffect>> effectMapBuilder = ImmutableMap.builder();
+            for (StatusEffect statusEffect : Registries.STATUS_EFFECT) {
+                effectMapBuilder.put(Objects.requireNonNull(Registries.STATUS_EFFECT.getId(statusEffect), "Error initializing config system!"),
+                        Registries.STATUS_EFFECT.getEntry(statusEffect)
+                );
+            }
+            allStatusEffects = effectMapBuilder.build();
         }
-        allStatusEffects = effectMapBuilder.build();
+        try {
+            String s1 = Main.readFile(new File(System.getProperty("user.dir") + "\\..\\src\\main\\resources\\testConfig\\test_config4.json"));
+            ItemEditorConfig s2 = GSON.fromJson(s1, ItemEditorConfig.class);
+            LabMod.LOGGER.info(Arrays.toString(s2.itemEditorConfigUnits()));
+        } catch (IOException e) {
+            LabMod.LOGGER.error("Whoops!", e);
+        }
+        System.exit(0);
     }
-    public static int getCharCount(String string, char character) {
-        return string.split(String.valueOf(character), -1).length - 1;
-    }
+
     @NotNull
     public static ImmutableMap<Identifier, Item> getAllItems() throws IllegalStateException {
         if (!initState) {
-            throw new IllegalStateException("The config system has not been initialized, allItems is empty.");
+            throw new IllegalStateException("The config system hasn't been initialized, allItems is empty.");
         }
         return allItems;
     }
+
     @NotNull
     public static ImmutableMap<Identifier, RegistryEntry<StatusEffect>> getAllStatusEffects() throws IllegalStateException {
         if (!initState) {
-            throw new IllegalStateException("The config system has not been initialized, allStatusEffects is empty.");
+            throw new IllegalStateException("The config system hasn't been initialized, allStatusEffects is empty.");
         }
         return allStatusEffects;
     }

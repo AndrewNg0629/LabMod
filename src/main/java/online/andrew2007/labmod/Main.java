@@ -1,14 +1,24 @@
 package online.andrew2007.labmod;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.sun.jna.platform.win32.WTypes;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.InvalidIdentifierException;
 import online.andrew2007.labmod.mwtConfigSystemProto.*;
+
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Random;
+import java.util.Set;
 
 public class Main {
     public static void main (String[] args) throws Exception {
+        float s1 = 1F/7F;
+        System.out.println(s1*28);
     }
     public static void configSystemTestA() throws Exception {
         File s1 = new File(System.getProperty("user.dir") + "\\src\\main\\resources\\testConfig\\test_config1.json");

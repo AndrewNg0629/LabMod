@@ -14,7 +14,8 @@ public record ModConfig(
         boolean ServerPlaySupportEnabled,
         ClasspathValidationConfig classpathValidationConfig,
         BinaryToggleTweaksConfig binaryToggleTweaksConfig,
-        ParamsRequiredTweaksConfig paramsRequiredTweaksConfig
+        ParamsRequiredTweaksConfig paramsRequiredTweaksConfig,
+        ItemEditorConfig itemEditorConfig
 ) {
     public static class Deserializer implements CustomJsonDeserializer<ModConfig> {
         @Override
@@ -26,20 +27,23 @@ public record ModConfig(
                     "server_play_support_enabled",
                     "classpath_validation",
                     "binary_toggle_tweaks",
-                    "params_required_tweaks"
+                    "params_required_tweaks",
+                    "item_editor_config"
             ))) {
                 throw new JsonParseException("Wrong config structure, please have a check.");
             }
             ClasspathValidationConfig classpathValidationConfig = context.deserialize(jsonObject.get("classpath_validation"), ClasspathValidationConfig.class);
             BinaryToggleTweaksConfig binaryToggleTweaksConfig = context.deserialize(jsonObject.get("binary_toggle_tweaks"), BinaryToggleTweaksConfig.class);
             ParamsRequiredTweaksConfig paramsRequiredTweaksConfig = context.deserialize(jsonObject.get("params_required_tweaks"), ParamsRequiredTweaksConfig.class);
+            ItemEditorConfig itemEditorConfig = context.deserialize(jsonObject.get("item_editor_config"), ItemEditorConfig.class);
             return new ModConfig(
                     readBoolean(jsonObject.get("mod_enabled")),
                     readBoolean(jsonObject.get("tweaks_enabled")),
                     readBoolean(jsonObject.get("server_play_support_enabled")),
                     classpathValidationConfig,
                     binaryToggleTweaksConfig,
-                    paramsRequiredTweaksConfig
+                    paramsRequiredTweaksConfig,
+                    itemEditorConfig
             );
         }
     }
