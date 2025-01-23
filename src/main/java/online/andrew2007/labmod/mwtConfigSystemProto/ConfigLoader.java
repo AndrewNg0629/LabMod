@@ -14,7 +14,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Objects;
 
 
@@ -59,9 +58,9 @@ public class ConfigLoader {
             allStatusEffects = effectMapBuilder.build();
         }
         try {
-            String s1 = Main.readFile(new File(System.getProperty("user.dir") + "\\..\\src\\main\\resources\\testConfig\\test_config4.json"));
-            ItemEditorConfig s2 = GSON.fromJson(s1, ItemEditorConfig.class);
-            LabMod.LOGGER.info(Arrays.toString(s2.itemEditorConfigUnits()));
+            String s1 = Main.readFile(new File(System.getProperty("user.dir") + "\\..\\src\\main\\resources\\testConfig\\config_proto.json"));
+            ModConfig s2 = GSON.fromJson(s1, ModConfig.class);
+            LabMod.LOGGER.info(s2.toString());
         } catch (IOException e) {
             LabMod.LOGGER.error("Whoops!", e);
         }
