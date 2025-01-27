@@ -13,5 +13,6 @@
   "multi_trident_damage": true,
   "persistent_tridents": true,
   "silent_wardens": true,
-  "constant_villager_conversion": true
+  "constant_villager_conversion": true,
+  "fake_player_sleep_exclusion": true
 }

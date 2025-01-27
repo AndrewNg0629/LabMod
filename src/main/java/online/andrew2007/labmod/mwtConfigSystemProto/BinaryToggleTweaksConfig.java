@@ -23,7 +23,8 @@ public record BinaryToggleTweaksConfig(
         boolean multiTridentDamage,
         boolean persistentTridents,
         boolean silentWardens,
-        boolean constantVillagerConversion
+        boolean constantVillagerConversion,
+        boolean fakePlayerSleepExclusion
 ) {
     public static class Deserializer implements CustomJsonDeserializer<BinaryToggleTweaksConfig> {
 
@@ -45,7 +46,8 @@ public record BinaryToggleTweaksConfig(
                     "multi_trident_damage",
                     "persistent_tridents",
                     "silent_wardens",
-                    "constant_villager_conversion"
+                    "constant_villager_conversion",
+                    "fake_player_sleep_exclusion"
             ))) {
                 throw new JsonParseException("Wrong config structure, please have a check.");
             }
@@ -64,7 +66,8 @@ public record BinaryToggleTweaksConfig(
                     readBoolean(jsonObject.get("multi_trident_damage")),
                     readBoolean(jsonObject.get("persistent_tridents")),
                     readBoolean(jsonObject.get("silent_wardens")),
-                    readBoolean(jsonObject.get("constant_villager_conversion"))
+                    readBoolean(jsonObject.get("constant_villager_conversion")),
+                    readBoolean(jsonObject.get("fake_player_sleep_exclusion"))
             );
         }
     }

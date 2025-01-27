@@ -3,7 +3,10 @@
   "package": "online.andrew2007.labmod.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "SetIsDevelopment"
+    "BedBlockMixin",
+    "PlayerEntityMixin",
+    "SetIsDevelopment",
+    "SleepManagerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

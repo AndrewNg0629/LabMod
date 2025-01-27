@@ -3,15 +3,14 @@
 	"id": "labmod",
 	"version": "${version}",
 	"name": "LabMod",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "A lab for Minecraft mod development.",
 	"authors": [
-		"Me!"
+		"AndrewNg0629"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/AndrewNg0629/LabMod"
 	},
-	"license": "CC0-1.0",
+	"license": "MIT",
 	"icon": "assets/labmod/icon.png",
 	"environment": "*",
 	"entrypoints": {
@@ -20,9 +19,6 @@
 		],
 		"client": [
 			"online.andrew2007.labmod.LabModClient"
-		],
-		"fabric-datagen": [
-			"online.andrew2007.labmod.LabModDataGenerator"
 		]
 	},
 	"mixins": [

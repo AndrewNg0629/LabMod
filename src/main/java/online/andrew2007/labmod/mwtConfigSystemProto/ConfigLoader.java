@@ -9,18 +9,15 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import online.andrew2007.labmod.LabMod;
-import online.andrew2007.labmod.Main;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Objects;
 
 
 public class ConfigLoader {
     public static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(ModConfig.class, new ModConfig.Deserializer())
-            .registerTypeAdapter(ClasspathValidationConfig.class, new ClasspathValidationConfig.Deserializer())
+            .registerTypeAdapter(ModIdValidationConfig.class, new ModIdValidationConfig.Deserializer())
             .registerTypeAdapter(BinaryToggleTweaksConfig.class, new BinaryToggleTweaksConfig.Deserializer())
             .registerTypeAdapter(ParamsRequiredTweaksConfig.class, new ParamsRequiredTweaksConfig.Deserializer())
             .registerTypeAdapter(ParamsRequiredTweaksConfig.AutoDiscardingFireBallConfig.class, new ParamsRequiredTweaksConfig.AutoDiscardingFireBallConfig.Deserializer())
@@ -57,14 +54,6 @@ public class ConfigLoader {
             }
             allStatusEffects = effectMapBuilder.build();
         }
-        try {
-            String s1 = Main.readFile(new File(System.getProperty("user.dir") + "\\..\\src\\main\\resources\\testConfig\\config_proto.json"));
-            ModConfig s2 = GSON.fromJson(s1, ModConfig.class);
-            LabMod.LOGGER.info(s2.toString());
-        } catch (IOException e) {
-            LabMod.LOGGER.error("Whoops!", e);
-        }
-        System.exit(0);
     }
 
     @NotNull

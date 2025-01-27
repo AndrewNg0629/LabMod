@@ -2,10 +2,10 @@
     "mod_enabled": true,
     "tweaks_enabled": true,
     "server_play_support_enabled": true,
-    "classpath_validation": {
+    "mod_id_validation": {
         "enabled": true,
-        "classpath_list": [
-            "online.andrew2007.mythic.MythicworldTweaks"
+        "mod_id_list": [
+            "mod-abc"
         ]
     },
     "binary_toggle_tweaks": {
@@ -23,7 +23,8 @@
         "multi_trident_damage": true,
         "persistent_tridents": true,
         "silent_wardens": true,
-        "constant_villager_conversion": true
+        "constant_villager_conversion": true,
+        "fake_player_sleep_exclusion": true
     },
     "params_required_tweaks": {
         "auto_discarding_fire_ball": {
@@ -55,7 +56,7 @@
             "sonic_boom_interval_ticks": 34
         }
     },
-    "item_editor_config": {
+    "item_editor": {
         "enabled": true,
         "item_edit_config_list": [
             {

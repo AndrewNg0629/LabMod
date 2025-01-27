@@ -34,13 +34,9 @@ loom {
 			sourceSet sourceSets.client
 		}
 	}
-
 }
 
 fabricApi {
-	configureDataGeneration {
-		client = true
-	}
 }
 
 dependencies {
@@ -52,7 +48,7 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
-	modImplementation "carpet:fabric-carpet:${project.minecraft_version}-${project.carpet_core_version}"
+	//modImplementation "carpet:fabric-carpet:${project.minecraft_version}-${project.carpet_core_version}"
 }
 
 processResources {
