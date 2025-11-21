@@ -61,6 +61,7 @@ public class LabMod implements ModInitializer {
 							source.sendFeedback(() -> Text.of(String.valueOf(ReflectionCenter.getFieldValue(ReflectionCenter.featuresMask, source.getEnabledFeatures()))), false);
 							return 1;
 						})));
+		LOGGER.info("This is dev.");
 	}
 
 	public static void test0() {
