@@ -5,6 +5,8 @@
   "mixins": [
     "BedBlockMixin",
     "DebugMixin1",
+    "DebugMixin2",
+    "DebugMixin3",
     "PlayerEntityMixin",
     "SetIsDevelopment",
     "SleepManagerMixin"
