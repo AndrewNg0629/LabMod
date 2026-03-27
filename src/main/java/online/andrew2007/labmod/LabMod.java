@@ -47,6 +47,7 @@ public class LabMod implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		/*
 		LOGGER.info("Hello Fabric world!");
 		if (!EnvironmentDetection.isPhyClient) {
 			ServerLifecycleEvents.SERVER_STARTING.register(server -> ConfigLoader.onModInit());
@@ -62,6 +63,7 @@ public class LabMod implements ModInitializer {
 							return 1;
 						})));
 		LOGGER.info("This is dev.");
+		*/
 	}
 
 	public static void test0() {

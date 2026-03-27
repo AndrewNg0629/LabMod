@@ -4,10 +4,9 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "BedBlockMixin",
-    "DebugMixin1",
-    "DebugMixin2",
-    "DebugMixin3",
+    "LoginStatesMixin",
     "PlayerEntityMixin",
+    "ServerLoginNetworkHandlerMixin",
     "SetIsDevelopment",
     "SleepManagerMixin"
   ],

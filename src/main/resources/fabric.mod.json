@@ -43,6 +43,14 @@
 			},
 			"badges": [],
 			"update_checker": false
+		},
+		"loom:injected_interfaces": {
+			"net/minecraft/class_635": [
+				"online/andrew2007/labmod/network/v2/prototype/ClientLoginNetworkHandlerInjection"
+			],
+			"net/minecraft/class_3248": [
+				"online/andrew2007/labmod/network/v2/prototype/ServerLoginNetworkHandlerInjection"
+			]
 		}
 	}
 }
