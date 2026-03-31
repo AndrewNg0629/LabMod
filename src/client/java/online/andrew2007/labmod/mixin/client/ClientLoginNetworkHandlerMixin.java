@@ -2,6 +2,7 @@ package online.andrew2007.labmod.mixin.client;
 
 import net.minecraft.client.network.ClientLoginNetworkHandler;
 import net.minecraft.network.ClientConnection;
+import net.minecraft.text.Text;
 import online.andrew2007.labmod.LabMod;
 import online.andrew2007.labmod.network.v2.prototype.ClientLoginNetworkHandlerInjection;
 import online.andrew2007.labmod.network.v2.prototype.CustomC2SPacket;
@@ -17,6 +18,8 @@ public class ClientLoginNetworkHandlerMixin implements ClientLoginNetworkHandler
     @Override
     public void labmod$onCustomS2CPacket(CustomS2CPacket packet) {
         LabMod.LOGGER.info("Received data: {}", packet.data);
-        this.connection.send(new CustomC2SPacket("I hear you."));
+        if ("crash".equals(packet.data)) {
+            throw new RuntimeException("Debug crash.");
+        }
     }
 }

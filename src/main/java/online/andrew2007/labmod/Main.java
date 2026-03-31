@@ -7,10 +7,25 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main (String[] args) throws Exception {
-
+        ScheduledExecutorService s1 = Executors.newSingleThreadScheduledExecutor();
+        s1.scheduleAtFixedRate(() -> {
+            System.out.println("Exec");
+                    try {
+                        Thread.sleep(2000L);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                },
+                0L,
+                2000L,
+                TimeUnit.MILLISECONDS
+        );
     }
     public static void configSystemTestA() throws Exception {
         File s1 = new File(System.getProperty("user.dir") + "\\src\\main\\resources\\testConfig\\test_config1.json");

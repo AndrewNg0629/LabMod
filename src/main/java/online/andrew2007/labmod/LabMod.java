@@ -64,6 +64,12 @@ public class LabMod implements ModInitializer {
 						})));
 		LOGGER.info("This is dev.");
 		*/
+		try {
+			Class.forName("net.minecraft.server.network.ServerLoginNetworkHandler");
+			Class.forName("online.andrew2007.labmod.ReflectionUtils");
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public static void test0() {
