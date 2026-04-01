@@ -30,6 +30,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Map;
+import java.util.Objects;
 
 @SuppressWarnings({"unchecked", "unused"})
 public class ReflectionUtils {
@@ -160,5 +161,9 @@ public class ReflectionUtils {
 
     public static void setLoginHandlerState(ServerLoginNetworkHandler instance, int state) {
         ServerLoginNetworkHandler$state.setFieldValue(instance, serverLoginStates[state]);
+    }
+
+    public static boolean isHandlerNegotiating(ServerLoginNetworkHandler instance) {
+        return Objects.equals(ServerLoginNetworkHandler$state.getFieldValue(instance), serverLoginStates[3]);
     }
 }
