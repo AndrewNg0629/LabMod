@@ -7,6 +7,7 @@ import net.minecraft.network.listener.ServerLoginPacketListener;
 import net.minecraft.network.state.LoginStates;
 import online.andrew2007.labmod.network.v2.prototype.CustomC2SPacket;
 import online.andrew2007.labmod.network.v2.prototype.CustomS2CPacket;
+import online.andrew2007.labmod.network.v2.prototype.NegotiationStartS2CPacket;
 import online.andrew2007.labmod.network.v2.prototype.NetworkPrototype;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,6 +19,7 @@ public class LoginStatesMixin {
     @Inject(method = "method_56018", at = @At(value = "RETURN"))
     private static void buildS2CFactory(NetworkStateBuilder<ClientLoginPacketListener, PacketByteBuf> builder, CallbackInfo info) {
         builder.add(NetworkPrototype.CUSTOM_S2C, CustomS2CPacket.CODEC);
+        builder.add(NetworkPrototype.NEGOTIATION_START_S2C, NegotiationStartS2CPacket.CODEC);
     }
     @Inject(method = "method_56019", at = @At(value = "RETURN"))
     private static void buildC2SFactory(NetworkStateBuilder<ServerLoginPacketListener, PacketByteBuf> builder, CallbackInfo info) {

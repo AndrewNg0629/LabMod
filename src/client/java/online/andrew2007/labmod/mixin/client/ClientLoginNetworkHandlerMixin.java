@@ -7,6 +7,7 @@ import online.andrew2007.labmod.LabMod;
 import online.andrew2007.labmod.network.v2.prototype.ClientLoginNetworkHandlerInjection;
 import online.andrew2007.labmod.network.v2.prototype.CustomC2SPacket;
 import online.andrew2007.labmod.network.v2.prototype.CustomS2CPacket;
+import online.andrew2007.labmod.network.v2.prototype.NegotiationStartS2CPacket;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -20,6 +21,17 @@ public class ClientLoginNetworkHandlerMixin implements ClientLoginNetworkHandler
         LabMod.LOGGER.info("Received data: {}", packet.data);
         if ("crash".equals(packet.data)) {
             throw new RuntimeException("Debug crash.");
+        }
+    }
+
+    @Override
+    public void labmod$onNegotiationStartS2CPacket(NegotiationStartS2CPacket packet) {
+        LabMod.LOGGER.info("The server has LabMod{} installed and initiated negotiation.", packet.serverModVersion);
+        if (!LabMod.NETWORK_COMPATIBLE_VERSIONS.contains(packet.serverModVersion)) {
+            this.connection.disconnect(Text.of(String.format("Incompatible network version. Server: %s, Client: %s", packet.serverModVersion, LabMod.MOD_VERSION)));
+            LabMod.LOGGER.error("Disconnected due to incompatible server network protocol version: {}. Expecting: {}", packet.serverModVersion, LabMod.NETWORK_COMPATIBLE_VERSIONS);
+        } else {
+            this.connection.send();
         }
     }
 }

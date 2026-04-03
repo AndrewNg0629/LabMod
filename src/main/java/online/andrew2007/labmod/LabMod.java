@@ -1,5 +1,6 @@
 package online.andrew2007.labmod;
 
+import com.google.common.collect.ImmutableSet;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.MinecraftVersion;
@@ -16,9 +17,9 @@ public class LabMod implements ModInitializer {
 	public static final String MOD_ID = "labmod";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static final ArrayList<String> allMods = new ArrayList<>();
-	public static final TrackedData<Boolean> IS_FAKE = DataTracker.registerData(ServerPlayerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	public static final String MOD_VERSION = Objects.requireNonNull(FabricLoader.getInstance().getModContainer(MOD_ID).orElse(null)).getMetadata().getVersion().getFriendlyString();
 	public static final String GAME_VERSION = MinecraftVersion.CURRENT.getName();
+	public static final ImmutableSet<String> NETWORK_COMPATIBLE_VERSIONS = ImmutableSet.of(MOD_ID);
 
 	@Override
 	public void onInitialize() {

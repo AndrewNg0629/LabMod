@@ -20,6 +20,7 @@ public class ModNegotiationThread extends Thread {
     private final GameProfile profile;
     private final PlayerManager manager;
     public final ConcurrentLinkedQueue<Packet<ServerLoginPacketListener>> C2SQueue = new ConcurrentLinkedQueue<>();
+    public final Object lock = new Object();
 
     public ModNegotiationThread(ServerLoginNetworkHandler handler, ClientConnection connection, GameProfile profile, PlayerManager manager) {
         super("LabMod Negotiator #" + THREAD_NUMBER.incrementAndGet());
@@ -32,9 +33,7 @@ public class ModNegotiationThread extends Thread {
     @Override
     public void run() {
         try {
-            synchronized (this) {
-                this.wait(3000);
-            }
+            this.connection.send(new NegotiationStartS2CPacket(LabMod.MOD_VERSION));
 
             this.handler.labmod$finishModNegotiation(this.profile, this.manager);
         } catch (Exception e) {
@@ -48,6 +47,24 @@ public class ModNegotiationThread extends Thread {
     private void checkInterrupted() throws InterruptedException {
         if (this.isInterrupted()) {
             throw new InterruptedException();
+        }
+    }
+
+    private <P extends Packet<ServerLoginPacketListener>> P pollPacketAndCast(Class<P> packetType) throws InterruptedException {
+        if (this.C2SQueue.isEmpty()) {
+            synchronized (this.lock) {
+                this.lock.wait(3000);
+            }
+        }
+        Packet<ServerLoginPacketListener> packet = this.C2SQueue.poll();
+        if (packet != null) {
+            if (!packetType.isAssignableFrom(packet.getClass())) {
+                throw new RuntimeException("Unexpected packet: " + packet);
+            } else {
+                return packetType.cast(packet);
+            }
+        } else {
+            throw new RuntimeException("Packet expectation timed out: " + packetType);
         }
     }
 }

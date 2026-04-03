@@ -4,8 +4,11 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.DisconnectionInfo;
+import net.minecraft.network.listener.ServerLoginPacketListener;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerLoginNetworkHandler;
+import net.minecraft.text.Text;
 import online.andrew2007.labmod.LabMod;
 import online.andrew2007.labmod.ReflectionUtils;
 import online.andrew2007.labmod.network.v2.prototype.CustomC2SPacket;
@@ -28,6 +31,8 @@ public abstract class ServerLoginNetworkHandlerMixin implements ServerLoginNetwo
     @Shadow protected abstract void sendSuccessPacket(GameProfile profile);
 
     @Shadow private int loginTicks;
+
+    @Shadow public abstract void disconnect(Text reason);
 
     @Unique private ModNegotiationThread negotiationThread;
 
@@ -69,6 +74,18 @@ public abstract class ServerLoginNetworkHandlerMixin implements ServerLoginNetwo
             if (!this.negotiationThread.isInterrupted() && this.negotiationThread.isAlive()) {
                 this.negotiationThread.interrupt();
             }
+        }
+    }
+
+    @Override
+    public void labmod$onNegotiationPackets(Packet<ServerLoginPacketListener> packet) {
+        if (!(this.negotiationThread == null)) {
+            this.negotiationThread.C2SQueue.add(packet);
+            synchronized (this.negotiationThread.lock) {
+                this.negotiationThread.lock.notifyAll();
+            }
+        } else {
+            this.disconnect(Text.of("Unexpected packet: " + packet));
         }
     }
 }
