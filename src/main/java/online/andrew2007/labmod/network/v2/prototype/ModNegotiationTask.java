@@ -42,7 +42,7 @@ public class ModNegotiationTask implements Runnable {
             this.handler.labmod$finishModNegotiation(this.profile, this.manager);
         } catch (Exception e) {
             if (this.disconnected.compareAndSet(false, true)) {
-                handler.disconnect(Text.of("Exception negotiating:" + e));
+                this.handler.disconnect(Text.of("Exception negotiating: " + e));
             }
             LabMod.LOGGER.error("Mod negotiation aborted: {}", e.toString());
         }
