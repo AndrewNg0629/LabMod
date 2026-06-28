@@ -1,12 +1,13 @@
 {
   "required": true,
-  "package": "online.andrew2007.labmod.mixin",
+  "package": "top.aenp.labmod.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "ClientConnectionMixin",
     "LoginQueryRequestS2CPacketMixin",
-    "LoginStatesMixin",
+    "LoginQueryResponseC2SPacketMixin",
     "ServerLoginNetworkHandlerMixin",
-    "SetIsDevelopment"
+    "ServerMainMixin"
   ],
   "injectors": {
     "defaultRequire": 1

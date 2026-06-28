@@ -1,11 +1,11 @@
 {
-	"required": true,
-	"package": "online.andrew2007.labmod.mixin.client",
-	"compatibilityLevel": "JAVA_21",
-	"client": [
-		"ClientLoginNetworkHandlerMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
+  "required": true,
+  "package": "top.aenp.labmod.mixin.client",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "ClientLoginNetworkHandlerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
 	}
 }

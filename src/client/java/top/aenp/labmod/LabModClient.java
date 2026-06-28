@@ -1,0 +1,9 @@
+package top.aenp.labmod;
+
+import net.fabricmc.api.ClientModInitializer;
+
+public class LabModClient implements ClientModInitializer {
+	@Override
+	public void onInitializeClient() {
+	}
+}

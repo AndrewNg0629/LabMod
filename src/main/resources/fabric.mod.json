@@ -15,10 +15,10 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"online.andrew2007.labmod.LabMod"
+			"top.aenp.labmod.LabMod"
 		],
 		"client": [
-			"online.andrew2007.labmod.LabModClient"
+			"top.aenp.labmod.LabModClient"
 		]
 	},
 	"mixins": [
@@ -45,11 +45,11 @@
 			"update_checker": false
 		},
 		"loom:injected_interfaces": {
-			"net/minecraft/class_635": [
-				"online/andrew2007/labmod/network/v2/prototype/ClientLoginNetworkHandlerInjection"
-			],
 			"net/minecraft/class_3248": [
-				"online/andrew2007/labmod/network/v2/prototype/ServerLoginNetworkHandlerInjection"
+				"top/aenp/labmod/network/v2/prototype/ServerLoginNetworkHandlerMethodInjections"
+			],
+			"net/minecraft/class_635": [
+				"top/aenp/labmod/network/v2/prototype/ClientLoginNetworkHandlerMethodInjections"
 			]
 		}
 	}
