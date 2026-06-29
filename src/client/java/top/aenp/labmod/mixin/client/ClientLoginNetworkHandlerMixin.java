@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(value = ClientLoginNetworkHandler.class, priority = 999)
+@Mixin(value = ClientLoginNetworkHandler.class, priority = 990)
 public class ClientLoginNetworkHandlerMixin implements ClientLoginNetworkHandlerMethodInjections {
     @Shadow
     @Final

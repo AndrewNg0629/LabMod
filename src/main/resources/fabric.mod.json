@@ -50,6 +50,12 @@
 			],
 			"net/minecraft/class_635": [
 				"top/aenp/labmod/network/v2/prototype/ClientLoginNetworkHandlerMethodInjections"
+			],
+			"net/minecraft/class_3244": [
+				"top/aenp/labmod/network/v2/prototype/ServerPlayNetworkHandlerMethodInjections"
+			],
+			"net/minecraft/class_634": [
+				"top/aenp/labmod/network/v2/prototype/ClientPlayNetworkHandlerMethodInjections"
 			]
 		}
 	}

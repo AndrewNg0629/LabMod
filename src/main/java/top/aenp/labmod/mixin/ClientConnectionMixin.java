@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(value = ClientConnection.class, priority = 999)
+@Mixin(value = ClientConnection.class, priority = 990)
 public abstract class ClientConnectionMixin {
     @Shadow
     private int packetsSentCounter;

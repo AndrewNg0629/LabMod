@@ -3,7 +3,8 @@
   "package": "top.aenp.labmod.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "ClientLoginNetworkHandlerMixin"
+    "ClientLoginNetworkHandlerMixin",
+    "ClientPlayNetworkHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

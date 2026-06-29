@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.function.Function;
 
-@Mixin(LoginQueryResponseC2SPacket.class)
+@Mixin(value = LoginQueryResponseC2SPacket.class, priority = 990)
 public class LoginQueryResponseC2SPacketMixin {
     @WrapOperation(method = "<clinit>", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/packet/Packet;createCodec(Lnet/minecraft/network/codec/ValueFirstEncoder;Lnet/minecraft/network/codec/PacketDecoder;)Lnet/minecraft/network/codec/PacketCodec;"))
     private static PacketCodec<PacketByteBuf, LoginQueryResponseC2SPacket> swapCodec(ValueFirstEncoder<PacketByteBuf, LoginQueryResponseC2SPacket> encoder, PacketDecoder<PacketByteBuf, LoginQueryResponseC2SPacket> decoder, Operation<PacketCodec<PacketByteBuf, LoginQueryResponseC2SPacket>> original) {
