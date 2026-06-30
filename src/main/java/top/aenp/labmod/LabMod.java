@@ -14,9 +14,7 @@ import net.minecraft.util.Rarity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import top.aenp.labmod.item.DebuggerItem;
-import top.aenp.labmod.network.v2.prototype.MythicNetwork;
-import top.aenp.labmod.network.v2.prototype.TestLoginC2SPayload;
-import top.aenp.labmod.network.v2.prototype.TestLoginS2CPayload;
+import top.aenp.labmod.network.v2.prototype.*;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -36,6 +34,8 @@ public class LabMod implements ModInitializer {
 	public void onInitialize() {
 		MythicNetwork.LOGIN_S2C_DECODERS.put(TestLoginS2CPayload.ID, TestLoginS2CPayload::new);
 		MythicNetwork.LOGIN_C2S_DECODERS.put(TestLoginC2SPayload.ID, TestLoginC2SPayload::new);
+		MythicNetwork.CUSTOM_PAYLOAD_CODECS.put(TestCommonS2CPayload.ID.id(), TestCommonS2CPayload.CODEC);
+		MythicNetwork.CUSTOM_PAYLOAD_CODECS.put(TestPlayC2SPayload.ID.id(), TestPlayC2SPayload.CODEC);
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.OPERATOR).register((itemGroup) -> itemGroup.add(DEBUGGER));
 		try {
 			Class.forName("net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket");

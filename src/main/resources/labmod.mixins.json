@@ -4,13 +4,12 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "ClientConnectionMixin",
-    "CustomPayloadC2SPacketMixin",
-    "CustomPayloadS2CPacketMixin",
     "LoginQueryRequestS2CPacketMixin",
     "LoginQueryResponseC2SPacketMixin",
     "ServerLoginNetworkHandlerMixin",
     "ServerMainMixin",
-    "ServerPlayNetworkHandlerMixin"
+    "ServerPlayNetworkHandlerMixin",
+    "UnknownCustomPayloadMixin"
   ],
   "injectors": {
     "defaultRequire": 1

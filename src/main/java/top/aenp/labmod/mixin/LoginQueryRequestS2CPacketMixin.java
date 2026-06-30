@@ -9,11 +9,11 @@ import net.minecraft.network.codec.ValueFirstEncoder;
 import net.minecraft.network.packet.s2c.login.LoginQueryRequestPayload;
 import net.minecraft.network.packet.s2c.login.LoginQueryRequestS2CPacket;
 import net.minecraft.util.Identifier;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
 import top.aenp.labmod.ReflectionUtils;
 import top.aenp.labmod.network.v2.prototype.MythicLoginS2CPayload;
 import top.aenp.labmod.network.v2.prototype.MythicNetwork;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.function.Function;
 

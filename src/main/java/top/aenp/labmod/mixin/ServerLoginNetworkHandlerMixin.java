@@ -5,8 +5,6 @@ import net.minecraft.network.packet.c2s.login.LoginQueryResponseC2SPacket;
 import net.minecraft.network.packet.s2c.login.LoginQueryRequestS2CPacket;
 import net.minecraft.server.network.ServerLoginNetworkHandler;
 import net.minecraft.text.Text;
-import top.aenp.labmod.LabMod;
-import top.aenp.labmod.network.v2.prototype.*;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -14,6 +12,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import top.aenp.labmod.LabMod;
+import top.aenp.labmod.network.v2.prototype.*;
 
 @Mixin(value = ServerLoginNetworkHandler.class, priority = 990)
 public abstract class ServerLoginNetworkHandlerMixin implements ServerLoginNetworkHandlerMethodInjections {
