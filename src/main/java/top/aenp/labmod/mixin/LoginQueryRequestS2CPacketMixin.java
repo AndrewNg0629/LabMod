@@ -15,8 +15,6 @@ import top.aenp.labmod.ReflectionUtils;
 import top.aenp.labmod.network.v2.prototype.MythicLoginS2CPayload;
 import top.aenp.labmod.network.v2.prototype.MythicNetwork;
 
-import java.util.function.Function;
-
 @Mixin(value = LoginQueryRequestS2CPacket.class, priority = 990)
 public class LoginQueryRequestS2CPacketMixin {
     @WrapOperation(method = "<clinit>", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/packet/Packet;createCodec(Lnet/minecraft/network/codec/ValueFirstEncoder;Lnet/minecraft/network/codec/PacketDecoder;)Lnet/minecraft/network/codec/PacketCodec;"))
@@ -29,8 +27,8 @@ public class LoginQueryRequestS2CPacketMixin {
                 if (queryId == MythicNetwork.QUERY_ID) {
                     buf.readIdentifier(); // Skip vanilla Identifier.
                     Identifier mythicType = buf.readIdentifier();
-                    Function<PacketByteBuf, MythicLoginS2CPayload> decoder = MythicNetwork.LOGIN_S2C_DECODERS.get(mythicType);
-                    payload = decoder != null ? decoder.apply(buf) : null;
+                    PacketCodec<PacketByteBuf, ? extends MythicLoginS2CPayload> codec = MythicNetwork.LOGIN_S2C_CODECS.get(mythicType);
+                    payload = codec != null ? codec.decode(buf) : null;
                 } else {
                     payload = ReflectionUtils.LoginQueryRequestS2CPacket$readPayload(buf.readIdentifier(), buf);
                 }

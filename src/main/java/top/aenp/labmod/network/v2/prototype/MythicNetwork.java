@@ -10,7 +10,8 @@ import java.util.function.Function;
 
 public class MythicNetwork {
     public static final int QUERY_ID = -2147483600;
-    public static final HashMap<Identifier, Function<PacketByteBuf, MythicLoginS2CPayload>> LOGIN_S2C_DECODERS = new HashMap<>();
     public static final HashMap<Identifier, Function<PacketByteBuf, MythicLoginC2SPayload>> LOGIN_C2S_DECODERS = new HashMap<>();
+    public static final HashMap<Identifier, PacketCodec<PacketByteBuf, ? extends MythicLoginS2CPayload>> LOGIN_S2C_CODECS = new HashMap<>();
+    public static final HashMap<Identifier, PacketCodec<PacketByteBuf, ? extends MythicLoginC2SPayload>> LOGIN_C2S_CODECS = new HashMap<>();
     public static final HashMap<Identifier, PacketCodec<PacketByteBuf, ? extends CustomPayload>> CUSTOM_PAYLOAD_CODECS = new HashMap<>();
 }

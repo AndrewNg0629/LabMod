@@ -32,7 +32,8 @@ public class LabMod implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		MythicNetwork.LOGIN_S2C_DECODERS.put(TestLoginS2CPayload.ID, TestLoginS2CPayload::new);
+		MythicNetwork.LOGIN_S2C_CODECS.put(TestLoginS2CPayload.ID, TestLoginS2CPayload.CODEC);
+		MythicNetwork.LOGIN_C2S_CODECS.put(TestLoginC2SPayload.ID, TestLoginC2SPayload.CODEC);
 		MythicNetwork.LOGIN_C2S_DECODERS.put(TestLoginC2SPayload.ID, TestLoginC2SPayload::new);
 		MythicNetwork.CUSTOM_PAYLOAD_CODECS.put(TestCommonS2CPayload.ID.id(), TestCommonS2CPayload.CODEC);
 		MythicNetwork.CUSTOM_PAYLOAD_CODECS.put(TestPlayC2SPayload.ID.id(), TestPlayC2SPayload.CODEC);

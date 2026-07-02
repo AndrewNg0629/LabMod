@@ -1,9 +1,11 @@
 package top.aenp.labmod.network.v2.prototype;
 
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.s2c.login.LoginQueryRequestPayload;
 import net.minecraft.util.Identifier;
 
+@SuppressWarnings("unchecked")
 public interface MythicLoginS2CPayload extends LoginQueryRequestPayload {
     @Override
     default Identifier id() {
@@ -12,13 +14,12 @@ public interface MythicLoginS2CPayload extends LoginQueryRequestPayload {
 
     @Override
     default void write(PacketByteBuf buf) {
+        PacketCodec<PacketByteBuf, MythicLoginS2CPayload> codec = (PacketCodec<PacketByteBuf, MythicLoginS2CPayload>) MythicNetwork.LOGIN_S2C_CODECS.get(this.mythicId());
         buf.writeIdentifier(this.mythicId());
-        this.mythicWrite(buf);
+        codec.encode(buf, this);
     }
 
     Identifier mythicId();
-
-    void mythicWrite(PacketByteBuf buf);
 
     void handle(ClientLoginNetworkHandlerMethodInjections handler);
 }
