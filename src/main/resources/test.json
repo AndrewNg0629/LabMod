@@ -1,7 +1,7 @@
 {
   "mod_enabled": true,
   "local_tweaks_enabled": true,
-  "multiplayer_suppoet_enabled": false,
+  "multiplayer_support_enabled": false,
   "mod_id_validation": {
     "enabled": false,
     "required_mods": [],

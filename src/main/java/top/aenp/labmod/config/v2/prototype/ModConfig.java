@@ -34,7 +34,7 @@ public record ModConfig(
             instance -> instance.group(
                     Codec.BOOL.fieldOf("mod_enabled").forGetter(ModConfig::modEnabled),
                     Codec.BOOL.fieldOf("local_tweaks_enabled").forGetter(ModConfig::localTweaksEnabled),
-                    Codec.BOOL.fieldOf("multiplayer_suppoet_enabled").forGetter(ModConfig::multiplayerSupportEnabled),
+                    Codec.BOOL.fieldOf("multiplayer_support_enabled").forGetter(ModConfig::multiplayerSupportEnabled),
                     ModIdValidationConfig.CODEC.fieldOf("mod_id_validation").forGetter(ModConfig::modIdValidationConfig),
                     ToggleTweaksSection1.CODEC.fieldOf("toggle_tweaks_1").forGetter(ModConfig::toggleTweaksSection1),
                     ToggleTweaksSection2.CODEC.fieldOf("toggle_tweaks_2").forGetter(ModConfig::toggleTweaksSection2),
