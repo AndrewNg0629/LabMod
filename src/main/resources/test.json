@@ -1,0 +1,80 @@
+{
+  "mod_enabled": true,
+  "local_tweaks_enabled": true,
+  "multiplayer_suppoet_enabled": false,
+  "mod_id_validation": {
+    "enabled": false,
+    "required_mods": [],
+    "prohibited_mods": []
+  },
+  "toggle_tweaks_1": {
+    "throwable_fire_charge": true,
+    "large_fire_charge": false,
+    "creepers_dont_break_blocks": true,
+    "item_explosion_resistance": true,
+    "player_riding": true,
+    "player_riding_fall_protection": true,
+    "dispensable_tridents": false,
+    "tridents_return_from_void": true,
+    "tridents_damage_multiple_times": false,
+    "thrown_tridents_persist": true,
+    "villagers_always_zombify": false,
+    "bed_idle": true,
+    "keep_experience_after_death": true,
+    "always_drop_dragon_egg": false,
+    "armor_trim_pacify": true,
+    "suicide_command": false
+  },
+  "toggle_tweaks_2": {
+    "carpet_fake_player_sleep_exclusion": false,
+    "editable_player_data": true,
+    "creative_player_void_resistance": true
+  },
+  "value_tweaks": {
+    "fireball_auto_discarding": { "enabled": true, "discard_ticks": 200 },
+    "stuffed_shulker_box_stacking": { "enabled": true, "max_stack_size": 16 },
+    "shulker_box_nesting": { "enabled": true, "max_layers": 3 },
+    "warden_attributes_control": {
+      "enabled": true,
+      "max_health": 500.0,
+      "knockback_resistance": 0.5,
+      "melee_attack_damage": 30.0,
+      "melee_attack_knockback": 2.0,
+      "chasing_movement_speed": 0.25,
+      "attack_interval_ticks": 40
+    },
+    "warden_sonic_boom_control": {
+      "enabled": true,
+      "sonic_boom_enabled": true,
+      "sonic_boom_damage": 10.0,
+      "sonic_boom_knockback_factor": 0.8,
+      "sonic_boom_interval_ticks": 80
+    },
+    "player_death_item_protection": {
+      "enabled": true,
+      "item_despawn_ticks": 0,
+      "prevent_mob_pickup": true,
+      "strict_pickup": false
+    }
+  },
+  "item_editor": {
+    "enabled": true,
+    "item_edits": [
+      {
+        "item": "minecraft:apple",
+        "msx_stack_size": 64,
+        "is_food": true,
+        "food_components": {
+          "nutrition": 4,
+          "saturation": 0.3
+        }
+      },
+      {
+        "item": "minecraft:diamond_sword",
+        "durability": 1561,
+        "fire_resistant": true,
+        "rarity": "rare"
+      }
+    ]
+  }
+}
