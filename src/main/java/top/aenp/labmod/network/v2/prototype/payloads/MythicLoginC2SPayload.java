@@ -1,9 +1,11 @@
-package top.aenp.labmod.network.v2.prototype;
+package top.aenp.labmod.network.v2.prototype.payloads;
 
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.c2s.login.LoginQueryResponsePayload;
 import net.minecraft.util.Identifier;
+import top.aenp.labmod.network.v2.prototype.MythicNetwork;
+import top.aenp.labmod.network.v2.prototype.injections.ServerLoginNetworkHandlerMethodInjections;
 
 @SuppressWarnings("unchecked")
 public interface MythicLoginC2SPayload extends LoginQueryResponsePayload {

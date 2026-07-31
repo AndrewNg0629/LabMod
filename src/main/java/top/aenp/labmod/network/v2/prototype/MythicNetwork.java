@@ -4,9 +4,10 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
+import top.aenp.labmod.network.v2.prototype.payloads.MythicLoginC2SPayload;
+import top.aenp.labmod.network.v2.prototype.payloads.MythicLoginS2CPayload;
 
 import java.util.HashMap;
-import java.util.function.Function;
 
 public class MythicNetwork {
     public static final int QUERY_ID = -2147483600;

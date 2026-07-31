@@ -46,16 +46,19 @@
 		},
 		"loom:injected_interfaces": {
 			"net/minecraft/class_3248": [
-				"top/aenp/labmod/network/v2/prototype/ServerLoginNetworkHandlerMethodInjections"
+				"top/aenp/labmod/network/v2/prototype/injections/ServerLoginNetworkHandlerMethodInjections"
 			],
 			"net/minecraft/class_635": [
-				"top/aenp/labmod/network/v2/prototype/ClientLoginNetworkHandlerMethodInjections"
+				"top/aenp/labmod/network/v2/prototype/injections/ClientLoginNetworkHandlerMethodInjections"
 			],
 			"net/minecraft/class_3244": [
-				"top/aenp/labmod/network/v2/prototype/ServerPlayNetworkHandlerMethodInjections"
+				"top/aenp/labmod/network/v2/prototype/injections/ServerPlayNetworkHandlerMethodInjections"
 			],
 			"net/minecraft/class_634": [
-				"top/aenp/labmod/network/v2/prototype/ClientPlayNetworkHandlerMethodInjections"
+				"top/aenp/labmod/network/v2/prototype/injections/ClientPlayNetworkHandlerMethodInjections"
+			],
+			"net/minecraft/class_1541": [
+				"top/aenp/labmod/TntEntityMethodInjections"
 			]
 		}
 	}

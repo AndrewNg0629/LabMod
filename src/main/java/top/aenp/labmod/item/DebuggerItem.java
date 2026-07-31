@@ -8,7 +8,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
-import top.aenp.labmod.network.v2.prototype.TestCommonS2CPayload;
+import top.aenp.labmod.network.v2.prototype.test.TestCommonS2CPayload;
 
 public class DebuggerItem extends Item {
     public DebuggerItem(Settings settings) {

@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import top.aenp.labmod.ReflectionUtils;
-import top.aenp.labmod.network.v2.prototype.MythicLoginC2SPayload;
+import top.aenp.labmod.network.v2.prototype.payloads.MythicLoginC2SPayload;
 import top.aenp.labmod.network.v2.prototype.MythicNetwork;
 
 @Mixin(value = LoginQueryResponseC2SPacket.class, priority = 990)

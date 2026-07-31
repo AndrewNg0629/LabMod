@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import top.aenp.labmod.ReflectionUtils;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class ItemEditor {
     private final static HashMap<Item, ItemEditor> itemEditors = new HashMap<>();
@@ -45,7 +46,6 @@ public class ItemEditor {
         this.vanillaRecipeRemainder = item.getRecipeRemainder();
         this.itemDamageable = this.carriedItem.getComponents().contains(DataComponentTypes.MAX_DAMAGE);
         this.revertVanilla();
-
     }
 
     public static ItemEditor getInstance(@NotNull Item item) {
@@ -85,15 +85,15 @@ public class ItemEditor {
         }
         underlyingMap.put(DataComponentTypes.RARITY, this.rarity);
         if (this.isFood) {
-            underlyingMap.remove(DataComponentTypes.FOOD);
-        } else {
             underlyingMap.put(DataComponentTypes.FOOD, this.foodComponent);
+        } else {
+            underlyingMap.remove(DataComponentTypes.FOOD);
         }
         if (this.fireResistance) {
             underlyingMap.put(DataComponentTypes.FIRE_RESISTANT, Unit.INSTANCE);
         } else {
             underlyingMap.remove(DataComponentTypes.FIRE_RESISTANT);
         }
-        ReflectionUtils.Item$recipeRemainder.setFieldValue(this.carriedItem, this.recipeRemainder.equals(Items.AIR) ? null : this.recipeRemainder);
+        ReflectionUtils.Item$recipeRemainder.setFieldValue(this.carriedItem, Objects.equals(this.recipeRemainder, Items.AIR) ? null : this.recipeRemainder);
     }
 }

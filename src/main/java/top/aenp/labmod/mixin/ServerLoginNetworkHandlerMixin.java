@@ -14,6 +14,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.aenp.labmod.LabMod;
 import top.aenp.labmod.network.v2.prototype.*;
+import top.aenp.labmod.network.v2.prototype.injections.ServerLoginNetworkHandlerMethodInjections;
+import top.aenp.labmod.network.v2.prototype.payloads.MythicLoginC2SPayload;
+import top.aenp.labmod.network.v2.prototype.test.TestLoginC2SPayload;
+import top.aenp.labmod.network.v2.prototype.test.TestLoginS2CPayload;
 
 @Mixin(value = ServerLoginNetworkHandler.class, priority = 990)
 public abstract class ServerLoginNetworkHandlerMixin implements ServerLoginNetworkHandlerMethodInjections {

@@ -1,9 +1,11 @@
-package top.aenp.labmod.network.v2.prototype;
+package top.aenp.labmod.network.v2.prototype.test;
 
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
+import top.aenp.labmod.network.v2.prototype.injections.ServerPlayNetworkHandlerMethodInjections;
+import top.aenp.labmod.network.v2.prototype.payloads.MythicPlayC2SPayload;
 
 public record TestPlayC2SPayload(String data) implements MythicPlayC2SPayload {
     public static final CustomPayload.Id<TestPlayC2SPayload> ID = new CustomPayload.Id<>(Identifier.of("labmod", "test_playc2s"));

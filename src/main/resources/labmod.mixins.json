@@ -4,11 +4,14 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "ClientConnectionMixin",
+    "ExplosionMixin",
     "LoginQueryRequestS2CPacketMixin",
     "LoginQueryResponseC2SPacketMixin",
     "ServerLoginNetworkHandlerMixin",
     "ServerMainMixin",
     "ServerPlayNetworkHandlerMixin",
+    "TntBlockMixin",
+    "TntEntityMixin",
     "UnknownCustomPayloadMixin"
   ],
   "injectors": {

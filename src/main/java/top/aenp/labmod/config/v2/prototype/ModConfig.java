@@ -2,6 +2,7 @@ package top.aenp.labmod.config.v2.prototype;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.FoodComponent;
@@ -11,7 +12,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.dynamic.Codecs;
-import top.aenp.labmod.LabMod;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,9 +21,7 @@ public record ModConfig(
         boolean localTweaksEnabled,
         boolean multiplayerSupportEnabled,
         ModIdValidationConfig modIdValidationConfig,
-        ToggleTweaksSection1 toggleTweaksSection1,
-        ToggleTweaksSection2 toggleTweaksSection2,
-        ValueTweaks valueTweaks,
+        Tweaks tweaks,
         ItemEditorConfig itemEditorConfig
 ) {
     static {
@@ -36,9 +34,7 @@ public record ModConfig(
                     Codec.BOOL.fieldOf("local_tweaks_enabled").forGetter(ModConfig::localTweaksEnabled),
                     Codec.BOOL.fieldOf("multiplayer_support_enabled").forGetter(ModConfig::multiplayerSupportEnabled),
                     ModIdValidationConfig.CODEC.fieldOf("mod_id_validation").forGetter(ModConfig::modIdValidationConfig),
-                    ToggleTweaksSection1.CODEC.fieldOf("toggle_tweaks_1").forGetter(ModConfig::toggleTweaksSection1),
-                    ToggleTweaksSection2.CODEC.fieldOf("toggle_tweaks_2").forGetter(ModConfig::toggleTweaksSection2),
-                    ValueTweaks.CODEC.fieldOf("value_tweaks").forGetter(ModConfig::valueTweaks),
+                    Tweaks.CODEC.fieldOf("tweaks").forGetter(ModConfig::tweaks),
                     ItemEditorConfig.CODEC.fieldOf("item_editor").forGetter(ModConfig::itemEditorConfig)
             ).apply(instance, ModConfig::new)
     );
@@ -74,6 +70,16 @@ public record ModConfig(
         );
     }
 
+    public record Tweaks(ToggleTweaksSection1 section1, ToggleTweaksSection2 section2, ValueTweaks valueTweaks) {
+        public static final Codec<Tweaks> CODEC = RecordCodecBuilder.create(
+                instance -> instance.group(
+                        ToggleTweaksSection1.CODEC.forGetter(Tweaks::section1),
+                        ToggleTweaksSection2.CODEC.forGetter(Tweaks::section2),
+                        ValueTweaks.CODEC.forGetter(Tweaks::valueTweaks)
+                ).apply(instance, Tweaks::new)
+        );
+    }
+
     public record ToggleTweaksSection1(
             boolean throwableFireCharge,
             boolean largeFireCharge,
@@ -92,7 +98,7 @@ public record ModConfig(
             boolean armorTrimPacify,
             boolean suicideCommand
     ) {
-        public static final Codec<ToggleTweaksSection1> CODEC = RecordCodecBuilder.create(
+        public static final MapCodec<ToggleTweaksSection1> CODEC = RecordCodecBuilder.mapCodec(
                 instance -> instance.group(
                         Codec.BOOL.fieldOf("throwable_fire_charge").forGetter(ToggleTweaksSection1::throwableFireCharge),
                         Codec.BOOL.fieldOf("large_fire_charge").forGetter(ToggleTweaksSection1::largeFireCharge),
@@ -119,7 +125,7 @@ public record ModConfig(
             boolean editablePlayerData,
             boolean creativePlayerVoidResistance
     ) {
-        public static final Codec<ToggleTweaksSection2> CODEC = RecordCodecBuilder.create(
+        public static final MapCodec<ToggleTweaksSection2> CODEC = RecordCodecBuilder.mapCodec(
                 instance -> instance.group(
                         Codec.BOOL.fieldOf("carpet_fake_player_sleep_exclusion").forGetter(ToggleTweaksSection2::carpetFakePlayerSleepExclusion),
                         Codec.BOOL.fieldOf("editable_player_data").forGetter(ToggleTweaksSection2::editablePlayerData),
@@ -136,7 +142,7 @@ public record ModConfig(
             WardenSonicBoomControl wardenSonicBoomControl,
             PlayerDeathItemProtection playerDeathItemProtection
     ) {
-        public static final Codec<ValueTweaks> CODEC = RecordCodecBuilder.create(
+        public static final MapCodec<ValueTweaks> CODEC = RecordCodecBuilder.mapCodec(
                 instance -> instance.group(
                         FireballAutoDiscarding.CODEC.fieldOf("fireball_auto_discarding").forGetter(ValueTweaks::fireballAutoDiscarding),
                         StuffedShulkerBoxStacking.CODEC.fieldOf("stuffed_shulker_box_stacking").forGetter(ValueTweaks::stuffedShulkerBoxStacking),
