@@ -18,11 +18,11 @@ import java.util.Optional;
 
 public record ModConfig(
         boolean modEnabled,
-        boolean localTweaksEnabled,
         boolean multiplayerSupportEnabled,
         ModIdValidationConfig modIdValidationConfig,
         Tweaks tweaks,
-        ItemEditorConfig itemEditorConfig
+        ItemEditorConfig itemEditorConfig,
+        String configVersion
 ) {
     static {
         ITEM_ENTRY_CODEC = Registries.ITEM.getEntryCodec();
@@ -31,11 +31,11 @@ public record ModConfig(
     public static final Codec<ModConfig> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
                     Codec.BOOL.fieldOf("mod_enabled").forGetter(ModConfig::modEnabled),
-                    Codec.BOOL.fieldOf("local_tweaks_enabled").forGetter(ModConfig::localTweaksEnabled),
                     Codec.BOOL.fieldOf("multiplayer_support_enabled").forGetter(ModConfig::multiplayerSupportEnabled),
                     ModIdValidationConfig.CODEC.fieldOf("mod_id_validation").forGetter(ModConfig::modIdValidationConfig),
                     Tweaks.CODEC.fieldOf("tweaks").forGetter(ModConfig::tweaks),
-                    ItemEditorConfig.CODEC.fieldOf("item_editor").forGetter(ModConfig::itemEditorConfig)
+                    ItemEditorConfig.CODEC.fieldOf("item_editor").forGetter(ModConfig::itemEditorConfig),
+                    Codec.STRING.fieldOf("config_version").forGetter(ModConfig::configVersion)
             ).apply(instance, ModConfig::new)
     );
 
@@ -70,179 +70,180 @@ public record ModConfig(
         );
     }
 
-    public record Tweaks(ToggleTweaksSection1 section1, ToggleTweaksSection2 section2, ValueTweaks valueTweaks) {
+    public record Tweaks(boolean localTweaksEnabled, ToggleTweaksSection1 section1, ToggleTweaksSection2 section2, ValueTweaks valueTweaks) {
         public static final Codec<Tweaks> CODEC = RecordCodecBuilder.create(
                 instance -> instance.group(
+                        Codec.BOOL.fieldOf("local_tweaks_enabled").forGetter(Tweaks::localTweaksEnabled),
                         ToggleTweaksSection1.CODEC.forGetter(Tweaks::section1),
                         ToggleTweaksSection2.CODEC.forGetter(Tweaks::section2),
                         ValueTweaks.CODEC.forGetter(Tweaks::valueTweaks)
                 ).apply(instance, Tweaks::new)
         );
-    }
 
-    public record ToggleTweaksSection1(
-            boolean throwableFireCharge,
-            boolean largeFireCharge,
-            boolean creepersDontBreakBlocks,
-            boolean itemExplosionResistance,
-            boolean playerRiding,
-            boolean playerRidingFallProtection,
-            boolean dispensableTridents,
-            boolean tridentsReturnFromVoid,
-            boolean tridentsDamageMultipleTimes,
-            boolean thrownTridentsPersist,
-            boolean villagersAlwaysZombify,
-            boolean bedIdle,
-            boolean keepExperienceAfterDeath,
-            boolean alwaysDropDragonEgg,
-            boolean armorTrimPacify,
-            boolean suicideCommand
-    ) {
-        public static final MapCodec<ToggleTweaksSection1> CODEC = RecordCodecBuilder.mapCodec(
-                instance -> instance.group(
-                        Codec.BOOL.fieldOf("throwable_fire_charge").forGetter(ToggleTweaksSection1::throwableFireCharge),
-                        Codec.BOOL.fieldOf("large_fire_charge").forGetter(ToggleTweaksSection1::largeFireCharge),
-                        Codec.BOOL.fieldOf("creepers_dont_break_blocks").forGetter(ToggleTweaksSection1::creepersDontBreakBlocks),
-                        Codec.BOOL.fieldOf("item_explosion_resistance").forGetter(ToggleTweaksSection1::itemExplosionResistance),
-                        Codec.BOOL.fieldOf("player_riding").forGetter(ToggleTweaksSection1::playerRiding),
-                        Codec.BOOL.fieldOf("player_riding_fall_protection").forGetter(ToggleTweaksSection1::playerRidingFallProtection),
-                        Codec.BOOL.fieldOf("dispensable_tridents").forGetter(ToggleTweaksSection1::dispensableTridents),
-                        Codec.BOOL.fieldOf("tridents_return_from_void").forGetter(ToggleTweaksSection1::tridentsReturnFromVoid),
-                        Codec.BOOL.fieldOf("tridents_damage_multiple_times").forGetter(ToggleTweaksSection1::tridentsDamageMultipleTimes),
-                        Codec.BOOL.fieldOf("thrown_tridents_persist").forGetter(ToggleTweaksSection1::thrownTridentsPersist),
-                        Codec.BOOL.fieldOf("villagers_always_zombify").forGetter(ToggleTweaksSection1::villagersAlwaysZombify),
-                        Codec.BOOL.fieldOf("bed_idle").forGetter(ToggleTweaksSection1::bedIdle),
-                        Codec.BOOL.fieldOf("keep_experience_after_death").forGetter(ToggleTweaksSection1::keepExperienceAfterDeath),
-                        Codec.BOOL.fieldOf("always_drop_dragon_egg").forGetter(ToggleTweaksSection1::alwaysDropDragonEgg),
-                        Codec.BOOL.fieldOf("armor_trim_pacify").forGetter(ToggleTweaksSection1::armorTrimPacify),
-                        Codec.BOOL.fieldOf("suicide_command").forGetter(ToggleTweaksSection1::suicideCommand)
-                ).apply(instance, ToggleTweaksSection1::new)
-        );
-    }
-
-    public record ToggleTweaksSection2(
-            boolean carpetFakePlayerSleepExclusion,
-            boolean editablePlayerData,
-            boolean creativePlayerVoidResistance
-    ) {
-        public static final MapCodec<ToggleTweaksSection2> CODEC = RecordCodecBuilder.mapCodec(
-                instance -> instance.group(
-                        Codec.BOOL.fieldOf("carpet_fake_player_sleep_exclusion").forGetter(ToggleTweaksSection2::carpetFakePlayerSleepExclusion),
-                        Codec.BOOL.fieldOf("editable_player_data").forGetter(ToggleTweaksSection2::editablePlayerData),
-                        Codec.BOOL.fieldOf("creative_player_void_resistance").forGetter(ToggleTweaksSection2::creativePlayerVoidResistance)
-                ).apply(instance, ToggleTweaksSection2::new)
-        );
-    }
-
-    public record ValueTweaks(
-            FireballAutoDiscarding fireballAutoDiscarding,
-            StuffedShulkerBoxStacking stuffedShulkerBoxStacking,
-            ShulkerBoxNesting shulkerBoxNesting,
-            WardenAttributesControl wardenAttributesControl,
-            WardenSonicBoomControl wardenSonicBoomControl,
-            PlayerDeathItemProtection playerDeathItemProtection
-    ) {
-        public static final MapCodec<ValueTweaks> CODEC = RecordCodecBuilder.mapCodec(
-                instance -> instance.group(
-                        FireballAutoDiscarding.CODEC.fieldOf("fireball_auto_discarding").forGetter(ValueTweaks::fireballAutoDiscarding),
-                        StuffedShulkerBoxStacking.CODEC.fieldOf("stuffed_shulker_box_stacking").forGetter(ValueTweaks::stuffedShulkerBoxStacking),
-                        ShulkerBoxNesting.CODEC.fieldOf("shulker_box_nesting").forGetter(ValueTweaks::shulkerBoxNesting),
-                        WardenAttributesControl.CODEC.fieldOf("warden_attributes_control").forGetter(ValueTweaks::wardenAttributesControl),
-                        WardenSonicBoomControl.CODEC.fieldOf("warden_sonic_boom_control").forGetter(ValueTweaks::wardenSonicBoomControl),
-                        PlayerDeathItemProtection.CODEC.fieldOf("player_death_item_protection").forGetter(ValueTweaks::playerDeathItemProtection)
-                ).apply(instance, ValueTweaks::new)
-        );
-
-        public record FireballAutoDiscarding(
-                boolean enabled,
-                int discardTicks
+        public record ToggleTweaksSection1(
+                boolean throwableFireCharge,
+                boolean largeFireCharge,
+                boolean creepersDontBreakBlocks,
+                boolean itemExplosionResistance,
+                boolean playerRiding,
+                boolean playerRidingFallProtection,
+                boolean dispensableTridents,
+                boolean tridentsReturnFromVoid,
+                boolean tridentsDamageMultipleTimes,
+                boolean thrownTridentsPersist,
+                boolean villagersAlwaysZombify,
+                boolean bedIdle,
+                boolean keepExperienceAfterDeath,
+                boolean alwaysDropDragonEgg,
+                boolean armorTrimPacify,
+                boolean suicideCommand
         ) {
-            public static final Codec<FireballAutoDiscarding> CODEC = RecordCodecBuilder.create(
+            public static final MapCodec<ToggleTweaksSection1> CODEC = RecordCodecBuilder.mapCodec(
                     instance -> instance.group(
-                            Codec.BOOL.fieldOf("enabled").forGetter(FireballAutoDiscarding::enabled),
-                            Codecs.POSITIVE_INT.fieldOf("discard_ticks").forGetter(FireballAutoDiscarding::discardTicks)
-                    ).apply(instance, FireballAutoDiscarding::new)
+                            Codec.BOOL.fieldOf("throwable_fire_charge").forGetter(ToggleTweaksSection1::throwableFireCharge),
+                            Codec.BOOL.fieldOf("large_fire_charge").forGetter(ToggleTweaksSection1::largeFireCharge),
+                            Codec.BOOL.fieldOf("creepers_dont_break_blocks").forGetter(ToggleTweaksSection1::creepersDontBreakBlocks),
+                            Codec.BOOL.fieldOf("item_explosion_resistance").forGetter(ToggleTweaksSection1::itemExplosionResistance),
+                            Codec.BOOL.fieldOf("player_riding").forGetter(ToggleTweaksSection1::playerRiding),
+                            Codec.BOOL.fieldOf("player_riding_fall_protection").forGetter(ToggleTweaksSection1::playerRidingFallProtection),
+                            Codec.BOOL.fieldOf("dispensable_tridents").forGetter(ToggleTweaksSection1::dispensableTridents),
+                            Codec.BOOL.fieldOf("tridents_return_from_void").forGetter(ToggleTweaksSection1::tridentsReturnFromVoid),
+                            Codec.BOOL.fieldOf("tridents_damage_multiple_times").forGetter(ToggleTweaksSection1::tridentsDamageMultipleTimes),
+                            Codec.BOOL.fieldOf("thrown_tridents_persist").forGetter(ToggleTweaksSection1::thrownTridentsPersist),
+                            Codec.BOOL.fieldOf("villagers_always_zombify").forGetter(ToggleTweaksSection1::villagersAlwaysZombify),
+                            Codec.BOOL.fieldOf("bed_idle").forGetter(ToggleTweaksSection1::bedIdle),
+                            Codec.BOOL.fieldOf("keep_experience_after_death").forGetter(ToggleTweaksSection1::keepExperienceAfterDeath),
+                            Codec.BOOL.fieldOf("always_drop_dragon_egg").forGetter(ToggleTweaksSection1::alwaysDropDragonEgg),
+                            Codec.BOOL.fieldOf("armor_trim_pacify").forGetter(ToggleTweaksSection1::armorTrimPacify),
+                            Codec.BOOL.fieldOf("suicide_command").forGetter(ToggleTweaksSection1::suicideCommand)
+                    ).apply(instance, ToggleTweaksSection1::new)
             );
         }
 
-        public record StuffedShulkerBoxStacking(
-                boolean enabled,
-                int maxStackSize
+        public record ToggleTweaksSection2(
+                boolean carpetFakePlayerSleepExclusion,
+                boolean editablePlayerData,
+                boolean creativePlayerVoidResistance
         ) {
-            public static final Codec<StuffedShulkerBoxStacking> CODEC = RecordCodecBuilder.create(
+            public static final MapCodec<ToggleTweaksSection2> CODEC = RecordCodecBuilder.mapCodec(
                     instance -> instance.group(
-                            Codec.BOOL.fieldOf("enabled").forGetter(StuffedShulkerBoxStacking::enabled),
-                            Codecs.POSITIVE_INT.fieldOf("max_stack_size").forGetter(StuffedShulkerBoxStacking::maxStackSize)
-                    ).apply(instance, StuffedShulkerBoxStacking::new)
+                            Codec.BOOL.fieldOf("carpet_fake_player_sleep_exclusion").forGetter(ToggleTweaksSection2::carpetFakePlayerSleepExclusion),
+                            Codec.BOOL.fieldOf("editable_player_data").forGetter(ToggleTweaksSection2::editablePlayerData),
+                            Codec.BOOL.fieldOf("creative_player_void_resistance").forGetter(ToggleTweaksSection2::creativePlayerVoidResistance)
+                    ).apply(instance, ToggleTweaksSection2::new)
             );
         }
 
-        public record ShulkerBoxNesting(
-                boolean enabled,
-                int maxLayers
+        public record ValueTweaks(
+                FireballAutoDiscarding fireballAutoDiscarding,
+                StuffedShulkerBoxStacking stuffedShulkerBoxStacking,
+                ShulkerBoxNesting shulkerBoxNesting,
+                WardenAttributesControl wardenAttributesControl,
+                WardenSonicBoomControl wardenSonicBoomControl,
+                PlayerDeathItemProtection playerDeathItemProtection
         ) {
-            public static final Codec<ShulkerBoxNesting> CODEC = RecordCodecBuilder.create(
+            public static final MapCodec<ValueTweaks> CODEC = RecordCodecBuilder.mapCodec(
                     instance -> instance.group(
-                            Codec.BOOL.fieldOf("enabled").forGetter(ShulkerBoxNesting::enabled),
-                            Codecs.POSITIVE_INT.fieldOf("max_layers").forGetter(ShulkerBoxNesting::maxLayers)
-                    ).apply(instance, ShulkerBoxNesting::new)
+                            FireballAutoDiscarding.CODEC.fieldOf("fireball_auto_discarding").forGetter(ValueTweaks::fireballAutoDiscarding),
+                            StuffedShulkerBoxStacking.CODEC.fieldOf("stuffed_shulker_box_stacking").forGetter(ValueTweaks::stuffedShulkerBoxStacking),
+                            ShulkerBoxNesting.CODEC.fieldOf("shulker_box_nesting").forGetter(ValueTweaks::shulkerBoxNesting),
+                            WardenAttributesControl.CODEC.fieldOf("warden_attributes_control").forGetter(ValueTweaks::wardenAttributesControl),
+                            WardenSonicBoomControl.CODEC.fieldOf("warden_sonic_boom_control").forGetter(ValueTweaks::wardenSonicBoomControl),
+                            PlayerDeathItemProtection.CODEC.fieldOf("player_death_item_protection").forGetter(ValueTweaks::playerDeathItemProtection)
+                    ).apply(instance, ValueTweaks::new)
             );
-        }
 
-        public record WardenAttributesControl(
-                boolean enabled,
-                double maxHealth,
-                double knockbackResistance,
-                double meleeAttackDamage,
-                double meleeAttackKnockback,
-                double chasingMovementSpeed,
-                int attackIntervalTicks
-        ) {
-            public static final Codec<WardenAttributesControl> CODEC = RecordCodecBuilder.create(
-                    instance -> instance.group(
-                            Codec.BOOL.fieldOf("enabled").forGetter(WardenAttributesControl::enabled),
-                            rangedDouble(0.0, Double.MAX_VALUE, false, true).fieldOf("max_health").forGetter(WardenAttributesControl::maxHealth),
-                            rangedDouble(0.0, 1.0, true, true).fieldOf("knockback_resistance").forGetter(WardenAttributesControl::knockbackResistance),
-                            rangedDouble(0.0, Double.MAX_VALUE, true, true).fieldOf("melee_attack_damage").forGetter(WardenAttributesControl::meleeAttackDamage),
-                            rangedDouble(0.0, Double.MAX_VALUE, true, true).fieldOf("melee_attack_knockback").forGetter(WardenAttributesControl::meleeAttackKnockback),
-                            rangedDouble(0.0, Double.MAX_VALUE, true, true).fieldOf("chasing_movement_speed").forGetter(WardenAttributesControl::chasingMovementSpeed),
-                            Codecs.NONNEGATIVE_INT.fieldOf("attack_interval_ticks").forGetter(WardenAttributesControl::attackIntervalTicks)
-                    ).apply(instance, WardenAttributesControl::new)
-            );
-        }
+            public record FireballAutoDiscarding(
+                    boolean enabled,
+                    int discardTicks
+            ) {
+                public static final Codec<FireballAutoDiscarding> CODEC = RecordCodecBuilder.create(
+                        instance -> instance.group(
+                                Codec.BOOL.fieldOf("enabled").forGetter(FireballAutoDiscarding::enabled),
+                                Codecs.POSITIVE_INT.fieldOf("discard_ticks").forGetter(FireballAutoDiscarding::discardTicks)
+                        ).apply(instance, FireballAutoDiscarding::new)
+                );
+            }
 
-        public record WardenSonicBoomControl(
-                boolean enabled,
-                boolean sonicBoomEnabled,
-                double sonicBoomDamage,
-                double sonicBoomKnockbackFactor,
-                int sonicBoomIntervalTicks
-        ) {
-            public static final Codec<WardenSonicBoomControl> CODEC = RecordCodecBuilder.create(
-                    instance -> instance.group(
-                            Codec.BOOL.fieldOf("enabled").forGetter(WardenSonicBoomControl::enabled),
-                            Codec.BOOL.fieldOf("sonic_boom_enabled").forGetter(WardenSonicBoomControl::sonicBoomEnabled),
-                            rangedDouble(0.0, Double.MAX_VALUE, true, true).fieldOf("sonic_boom_damage").forGetter(WardenSonicBoomControl::sonicBoomDamage),
-                            rangedDouble(0.0, 1.0, true, true).fieldOf("sonic_boom_knockback_factor").forGetter(WardenSonicBoomControl::sonicBoomKnockbackFactor),
-                            Codecs.NONNEGATIVE_INT.fieldOf("sonic_boom_interval_ticks").forGetter(WardenSonicBoomControl::sonicBoomIntervalTicks)
-                    ).apply(instance, WardenSonicBoomControl::new)
-            );
-        }
+            public record StuffedShulkerBoxStacking(
+                    boolean enabled,
+                    int maxStackSize
+            ) {
+                public static final Codec<StuffedShulkerBoxStacking> CODEC = RecordCodecBuilder.create(
+                        instance -> instance.group(
+                                Codec.BOOL.fieldOf("enabled").forGetter(StuffedShulkerBoxStacking::enabled),
+                                Codecs.POSITIVE_INT.fieldOf("max_stack_size").forGetter(StuffedShulkerBoxStacking::maxStackSize)
+                        ).apply(instance, StuffedShulkerBoxStacking::new)
+                );
+            }
 
-        public record PlayerDeathItemProtection(
-                boolean enabled,
-                int itemDespawnTicks,
-                boolean preventMobPickup,
-                boolean strictPickup
-        ) {
-            public static final Codec<PlayerDeathItemProtection> CODEC = RecordCodecBuilder.create(
-                    instance -> instance.group(
-                            Codec.BOOL.fieldOf("enabled").forGetter(PlayerDeathItemProtection::enabled),
-                            Codecs.NONNEGATIVE_INT.fieldOf("item_despawn_ticks").forGetter(PlayerDeathItemProtection::itemDespawnTicks),
-                            Codec.BOOL.fieldOf("prevent_mob_pickup").forGetter(PlayerDeathItemProtection::preventMobPickup),
-                            Codec.BOOL.fieldOf("strict_pickup").forGetter(PlayerDeathItemProtection::strictPickup)
-                    ).apply(instance, PlayerDeathItemProtection::new)
-            );
+            public record ShulkerBoxNesting(
+                    boolean enabled,
+                    int maxLayers
+            ) {
+                public static final Codec<ShulkerBoxNesting> CODEC = RecordCodecBuilder.create(
+                        instance -> instance.group(
+                                Codec.BOOL.fieldOf("enabled").forGetter(ShulkerBoxNesting::enabled),
+                                Codecs.POSITIVE_INT.fieldOf("max_layers").forGetter(ShulkerBoxNesting::maxLayers)
+                        ).apply(instance, ShulkerBoxNesting::new)
+                );
+            }
+
+            public record WardenAttributesControl(
+                    boolean enabled,
+                    double maxHealth,
+                    double knockbackResistance,
+                    double meleeAttackDamage,
+                    double meleeAttackKnockback,
+                    double chasingMovementSpeed,
+                    int attackIntervalTicks
+            ) {
+                public static final Codec<WardenAttributesControl> CODEC = RecordCodecBuilder.create(
+                        instance -> instance.group(
+                                Codec.BOOL.fieldOf("enabled").forGetter(WardenAttributesControl::enabled),
+                                rangedDouble(0.0, Double.MAX_VALUE, false, true).fieldOf("max_health").forGetter(WardenAttributesControl::maxHealth),
+                                rangedDouble(0.0, 1.0, true, true).fieldOf("knockback_resistance").forGetter(WardenAttributesControl::knockbackResistance),
+                                rangedDouble(0.0, Double.MAX_VALUE, true, true).fieldOf("melee_attack_damage").forGetter(WardenAttributesControl::meleeAttackDamage),
+                                rangedDouble(0.0, Double.MAX_VALUE, true, true).fieldOf("melee_attack_knockback").forGetter(WardenAttributesControl::meleeAttackKnockback),
+                                rangedDouble(0.0, Double.MAX_VALUE, true, true).fieldOf("chasing_movement_speed").forGetter(WardenAttributesControl::chasingMovementSpeed),
+                                Codecs.NONNEGATIVE_INT.fieldOf("attack_interval_ticks").forGetter(WardenAttributesControl::attackIntervalTicks)
+                        ).apply(instance, WardenAttributesControl::new)
+                );
+            }
+
+            public record WardenSonicBoomControl(
+                    boolean enabled,
+                    boolean sonicBoomEnabled,
+                    double sonicBoomDamage,
+                    double sonicBoomKnockbackFactor,
+                    int sonicBoomIntervalTicks
+            ) {
+                public static final Codec<WardenSonicBoomControl> CODEC = RecordCodecBuilder.create(
+                        instance -> instance.group(
+                                Codec.BOOL.fieldOf("enabled").forGetter(WardenSonicBoomControl::enabled),
+                                Codec.BOOL.fieldOf("sonic_boom_enabled").forGetter(WardenSonicBoomControl::sonicBoomEnabled),
+                                rangedDouble(0.0, Double.MAX_VALUE, true, true).fieldOf("sonic_boom_damage").forGetter(WardenSonicBoomControl::sonicBoomDamage),
+                                rangedDouble(0.0, 1.0, true, true).fieldOf("sonic_boom_knockback_factor").forGetter(WardenSonicBoomControl::sonicBoomKnockbackFactor),
+                                Codecs.NONNEGATIVE_INT.fieldOf("sonic_boom_interval_ticks").forGetter(WardenSonicBoomControl::sonicBoomIntervalTicks)
+                        ).apply(instance, WardenSonicBoomControl::new)
+                );
+            }
+
+            public record PlayerDeathItemProtection(
+                    boolean enabled,
+                    int itemDespawnTicks,
+                    boolean preventMobPickup,
+                    boolean strictPickup
+            ) {
+                public static final Codec<PlayerDeathItemProtection> CODEC = RecordCodecBuilder.create(
+                        instance -> instance.group(
+                                Codec.BOOL.fieldOf("enabled").forGetter(PlayerDeathItemProtection::enabled),
+                                Codecs.NONNEGATIVE_INT.fieldOf("item_despawn_ticks").forGetter(PlayerDeathItemProtection::itemDespawnTicks),
+                                Codec.BOOL.fieldOf("prevent_mob_pickup").forGetter(PlayerDeathItemProtection::preventMobPickup),
+                                Codec.BOOL.fieldOf("strict_pickup").forGetter(PlayerDeathItemProtection::strictPickup)
+                        ).apply(instance, PlayerDeathItemProtection::new)
+                );
+            }
         }
     }
 

@@ -1,5 +1,7 @@
 package top.aenp.labmod.config.v2.prototype;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.PacketByteBuf;
@@ -15,35 +17,34 @@ public record NetworkSyncedConfig(
         boolean largeFireCharge,
         boolean bedIdle,
         boolean suicideCommand,
-        ModConfig.ValueTweaks.WardenAttributesControl wardenAttributesControl,
+        ModConfig.Tweaks.ValueTweaks.WardenAttributesControl wardenAttributesControl,
         ModConfig.ItemEditorConfig itemEditorConfig
 ) implements MythicLoginS2CPayload, MythicPlayS2CPayload {
+    public static final Codec<NetworkSyncedConfig> CODEC = RecordCodecBuilder.create(
+            instance -> instance.group(
+                    Codec.BOOL.fieldOf("large_fire_charge").forGetter(NetworkSyncedConfig::largeFireCharge),
+                    Codec.BOOL.fieldOf("bed_idle").forGetter(NetworkSyncedConfig::bedIdle),
+                    Codec.BOOL.fieldOf("suicide_command").forGetter(NetworkSyncedConfig::suicideCommand),
+                    ModConfig.Tweaks.ValueTweaks.WardenAttributesControl.CODEC.fieldOf("warden_attributes_control").forGetter(NetworkSyncedConfig::wardenAttributesControl),
+                    ModConfig.ItemEditorConfig.CODEC.fieldOf("item_editor_config").forGetter(NetworkSyncedConfig::itemEditorConfig)
+            ).apply(instance, NetworkSyncedConfig::new)
+    );
+
     public static final PacketCodec<PacketByteBuf, NetworkSyncedConfig> PACKET_CODEC = new PacketCodec<>() {
         @Override
         public NetworkSyncedConfig decode(PacketByteBuf buf) {
-            boolean largeFireCharge = buf.readBoolean();
-            boolean bedIdle = buf.readBoolean();
-            boolean suicideCommand = buf.readBoolean();
-            NbtElement wardenAttributesControlNBT = buf.readNbt();
-            ModConfig.ValueTweaks.WardenAttributesControl wardenAttributesControl = ModConfig.ValueTweaks.WardenAttributesControl.CODEC.parse(NbtOps.INSTANCE, wardenAttributesControlNBT).getOrThrow();
-            NbtElement itemEditorConfigNBT = buf.readNbt();
-            ModConfig.ItemEditorConfig itemEditorConfig = ModConfig.ItemEditorConfig.CODEC.parse(NbtOps.INSTANCE, itemEditorConfigNBT).getOrThrow();
-            return new NetworkSyncedConfig(largeFireCharge, bedIdle, suicideCommand, wardenAttributesControl, itemEditorConfig);
+            NbtElement nbt = buf.readNbt();
+            return NetworkSyncedConfig.CODEC.parse(NbtOps.INSTANCE, nbt).getOrThrow();
         }
 
         @Override
         public void encode(PacketByteBuf buf, NetworkSyncedConfig value) {
-            NbtElement wardenAttributesControlNBT = ModConfig.ValueTweaks.WardenAttributesControl.CODEC.encodeStart(NbtOps.INSTANCE, value.wardenAttributesControl).getOrThrow();
-            NbtElement itemEditorConfigNBT = ModConfig.ItemEditorConfig.CODEC.encodeStart(NbtOps.INSTANCE, value.itemEditorConfig).getOrThrow();
-            buf.writeBoolean(value.largeFireCharge);
-            buf.writeBoolean(value.bedIdle);
-            buf.writeBoolean(value.suicideCommand);
-            buf.writeNbt(wardenAttributesControlNBT);
-            buf.writeNbt(itemEditorConfigNBT);
+            NbtElement nbt = NetworkSyncedConfig.CODEC.encodeStart(NbtOps.INSTANCE, value).getOrThrow();
+            buf.writeNbt(nbt);
         }
     };
 
-    public static final Identifier ID = Identifier.of("labmod", "network_synced_config"); //TODO
+    public static final Identifier ID = Identifier.of("labmod", "network_synced_config"); //TODO: Change identifier.
     public static final CustomPayload.Id<NetworkSyncedConfig> PAYLOAD_ID = new Id<>(ID);
 
     @Override

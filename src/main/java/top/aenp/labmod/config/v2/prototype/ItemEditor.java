@@ -33,7 +33,7 @@ public class ItemEditor {
     private boolean fireResistance;
     private Item recipeRemainder;
 
-    private ItemEditor(@NotNull Item item) {
+    private ItemEditor(Item item) {
         itemEditors.put(item, this);
         this.carriedItem = item;
         ReflectionUtils.separateItemComponents(this.carriedItem);
@@ -48,7 +48,7 @@ public class ItemEditor {
         this.revertVanilla();
     }
 
-    public static ItemEditor getInstance(@NotNull Item item) {
+    public static ItemEditor getInstance(Item item) {
         ItemEditor editor = itemEditors.get(item);
         if (editor == null) {
             editor = new ItemEditor(item);

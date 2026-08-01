@@ -16,8 +16,6 @@ import net.minecraft.util.Rarity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import top.aenp.labmod.config.v2.prototype.ModConfig;
-import top.aenp.labmod.experiment.ReorderedJsonOps;
-import top.aenp.labmod.experiment.TestRecords;
 import top.aenp.labmod.item.DebuggerItem;
 import top.aenp.labmod.network.v2.prototype.*;
 import top.aenp.labmod.network.v2.prototype.test.TestCommonS2CPayload;
@@ -45,18 +43,18 @@ public class LabMod implements ModInitializer {
 	public static final ModConfig TEST_CONFIG = new ModConfig(
 			true,
 			false,
-			true,
 			new ModConfig.ModIdValidationConfig(false, List.of(), List.of()),
 			new ModConfig.Tweaks(
-					new ModConfig.ToggleTweaksSection1(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false),
-					new ModConfig.ToggleTweaksSection2(false, false, false),
-					new ModConfig.ValueTweaks(
-							new ModConfig.ValueTweaks.FireballAutoDiscarding(false, 200),
-							new ModConfig.ValueTweaks.StuffedShulkerBoxStacking(false, 1),
-							new ModConfig.ValueTweaks.ShulkerBoxNesting(true, 2),
-							new ModConfig.ValueTweaks.WardenAttributesControl(false, 500.0, 1.0, 30.0, 1.5, 1.2, 18),
-							new ModConfig.ValueTweaks.WardenSonicBoomControl(false, true, 10.0, 1.0, 34),
-							new ModConfig.ValueTweaks.PlayerDeathItemProtection(false, 12000, false, false)
+					true,
+					new ModConfig.Tweaks.ToggleTweaksSection1(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false),
+					new ModConfig.Tweaks.ToggleTweaksSection2(false, false, false),
+					new ModConfig.Tweaks.ValueTweaks(
+							new ModConfig.Tweaks.ValueTweaks.FireballAutoDiscarding(false, 200),
+							new ModConfig.Tweaks.ValueTweaks.StuffedShulkerBoxStacking(false, 1),
+							new ModConfig.Tweaks.ValueTweaks.ShulkerBoxNesting(true, 2),
+							new ModConfig.Tweaks.ValueTweaks.WardenAttributesControl(false, 500.0, 1.0, 30.0, 1.5, 1.2, 18),
+							new ModConfig.Tweaks.ValueTweaks.WardenSonicBoomControl(false, true, 10.0, 1.0, 34),
+							new ModConfig.Tweaks.ValueTweaks.PlayerDeathItemProtection(false, 12000, false, false)
 					)
 			),
 			new ModConfig.ItemEditorConfig(false, List.of())
@@ -69,8 +67,8 @@ public class LabMod implements ModInitializer {
 		MythicNetwork.CUSTOM_PAYLOAD_CODECS.put(TestCommonS2CPayload.ID.id(), TestCommonS2CPayload.CODEC);
 		MythicNetwork.CUSTOM_PAYLOAD_CODECS.put(TestPlayC2SPayload.ID.id(), TestPlayC2SPayload.CODEC);
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.OPERATOR).register((itemGroup) -> itemGroup.add(DEBUGGER));
-		JsonElement result = ModConfig.CODEC.encodeStart(ReorderedJsonOps.INSTANCE, TEST_CONFIG).result().orElseThrow();
-		LabMod.LOGGER.info(LabMod.GSON.toJson(result));
+		JsonElement jsonElement = ModConfig.CODEC.encodeStart(JsonOps.INSTANCE, TEST_CONFIG).getOrThrow();
+		LOGGER.info(GSON.toJson(jsonElement));
 		//TestRecords.test();
 		/*
 		String content = readResourceFile("test.json");

@@ -301,22 +301,22 @@ public class TestRecords {
     }
 
     public static void test() {
-        LabMod.LOGGER.info(R1.CODEC.encodeStart(ReorderedJsonOps.INSTANCE, R1.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
-        LabMod.LOGGER.info(R2.CODEC.encodeStart(ReorderedJsonOps.INSTANCE, R2.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
-        LabMod.LOGGER.info(R3.CODEC.encodeStart(ReorderedJsonOps.INSTANCE, R3.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
-        LabMod.LOGGER.info(R4.CODEC.encodeStart(ReorderedJsonOps.INSTANCE, R4.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
-        LabMod.LOGGER.info(R5.CODEC.encodeStart(ReorderedJsonOps.INSTANCE, R5.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
-        LabMod.LOGGER.info(R6.CODEC.encodeStart(ReorderedJsonOps.INSTANCE, R6.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
-        LabMod.LOGGER.info(R7.CODEC.encodeStart(ReorderedJsonOps.INSTANCE, R7.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
-        LabMod.LOGGER.info(R8.CODEC.encodeStart(ReorderedJsonOps.INSTANCE, R8.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
-        LabMod.LOGGER.info(R9.CODEC.encodeStart(ReorderedJsonOps.INSTANCE, R9.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
-        LabMod.LOGGER.info(R10.CODEC.encodeStart(ReorderedJsonOps.INSTANCE, R10.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
-        LabMod.LOGGER.info(R11.CODEC.encodeStart(ReorderedJsonOps.INSTANCE, R11.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
-        LabMod.LOGGER.info(R12.CODEC.encodeStart(ReorderedJsonOps.INSTANCE, R12.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
-        LabMod.LOGGER.info(R13.CODEC.encodeStart(ReorderedJsonOps.INSTANCE, R13.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
-        LabMod.LOGGER.info(R14.CODEC.encodeStart(ReorderedJsonOps.INSTANCE, R14.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
-        LabMod.LOGGER.info(R15.CODEC.encodeStart(ReorderedJsonOps.INSTANCE, R15.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
-        LabMod.LOGGER.info(R16.CODEC.encodeStart(ReorderedJsonOps.INSTANCE, R16.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
+        LabMod.LOGGER.info(R1.CODEC.encodeStart(JsonOps.INSTANCE, R1.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
+        LabMod.LOGGER.info(R2.CODEC.encodeStart(JsonOps.INSTANCE, R2.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
+        LabMod.LOGGER.info(R3.CODEC.encodeStart(JsonOps.INSTANCE, R3.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
+        LabMod.LOGGER.info(R4.CODEC.encodeStart(JsonOps.INSTANCE, R4.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
+        LabMod.LOGGER.info(R5.CODEC.encodeStart(JsonOps.INSTANCE, R5.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
+        LabMod.LOGGER.info(R6.CODEC.encodeStart(JsonOps.INSTANCE, R6.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
+        LabMod.LOGGER.info(R7.CODEC.encodeStart(JsonOps.INSTANCE, R7.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
+        LabMod.LOGGER.info(R8.CODEC.encodeStart(JsonOps.INSTANCE, R8.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
+        LabMod.LOGGER.info(R9.CODEC.encodeStart(JsonOps.INSTANCE, R9.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
+        LabMod.LOGGER.info(R10.CODEC.encodeStart(JsonOps.INSTANCE, R10.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
+        LabMod.LOGGER.info(R11.CODEC.encodeStart(JsonOps.INSTANCE, R11.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
+        LabMod.LOGGER.info(R12.CODEC.encodeStart(JsonOps.INSTANCE, R12.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
+        LabMod.LOGGER.info(R13.CODEC.encodeStart(JsonOps.INSTANCE, R13.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
+        LabMod.LOGGER.info(R14.CODEC.encodeStart(JsonOps.INSTANCE, R14.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
+        LabMod.LOGGER.info(R15.CODEC.encodeStart(JsonOps.INSTANCE, R15.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
+        LabMod.LOGGER.info(R16.CODEC.encodeStart(JsonOps.INSTANCE, R16.DEFAULT).getOrThrow().getAsJsonObject().keySet().toString());
     }
 }
 
