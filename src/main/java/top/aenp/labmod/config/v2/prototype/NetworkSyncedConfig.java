@@ -14,17 +14,13 @@ import top.aenp.labmod.network.v2.prototype.payloads.MythicLoginS2CPayload;
 import top.aenp.labmod.network.v2.prototype.payloads.MythicPlayS2CPayload;
 
 public record NetworkSyncedConfig(
-        boolean largeFireCharge,
-        boolean bedIdle,
-        boolean suicideCommand,
+        ModConfig.Tweaks.SyncedToggleTweaks1 syncedToggleTweaks1,
         ModConfig.Tweaks.ValueTweaks.WardenAttributesControl wardenAttributesControl,
         ModConfig.ItemEditorConfig itemEditorConfig
 ) implements MythicLoginS2CPayload, MythicPlayS2CPayload {
     public static final Codec<NetworkSyncedConfig> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
-                    Codec.BOOL.fieldOf("large_fire_charge").forGetter(NetworkSyncedConfig::largeFireCharge),
-                    Codec.BOOL.fieldOf("bed_idle").forGetter(NetworkSyncedConfig::bedIdle),
-                    Codec.BOOL.fieldOf("suicide_command").forGetter(NetworkSyncedConfig::suicideCommand),
+                    ModConfig.Tweaks.SyncedToggleTweaks1.CODEC.fieldOf("synced_toggle_tweaks1").forGetter(NetworkSyncedConfig::syncedToggleTweaks1),
                     ModConfig.Tweaks.ValueTweaks.WardenAttributesControl.CODEC.fieldOf("warden_attributes_control").forGetter(NetworkSyncedConfig::wardenAttributesControl),
                     ModConfig.ItemEditorConfig.CODEC.fieldOf("item_editor_config").forGetter(NetworkSyncedConfig::itemEditorConfig)
             ).apply(instance, NetworkSyncedConfig::new)

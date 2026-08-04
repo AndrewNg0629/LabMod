@@ -27,7 +27,7 @@ public class LoginQueryRequestS2CPacketMixin {
                 if (queryId == MythicNetwork.QUERY_ID) {
                     buf.readIdentifier(); // Skip vanilla Identifier.
                     Identifier mythicType = buf.readIdentifier();
-                    PacketCodec<PacketByteBuf, ? extends MythicLoginS2CPayload> codec = MythicNetwork.LOGIN_S2C_CODECS.get(mythicType);
+                    PacketCodec<PacketByteBuf, ? extends MythicLoginS2CPayload> codec = MythicNetwork.INSTANCE.LOGIN_S2C_CODECS.get(mythicType);
                     payload = codec != null ? codec.decode(buf) : null;
                 } else {
                     payload = ReflectionUtils.LoginQueryRequestS2CPacket$readPayload(buf.readIdentifier(), buf);

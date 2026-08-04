@@ -8,10 +8,10 @@ import net.minecraft.component.type.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.util.Rarity;
-import org.jetbrains.annotations.NotNull;
 import top.aenp.labmod.ReflectionUtils;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Objects;
 
 public class ItemEditor {
@@ -32,6 +32,7 @@ public class ItemEditor {
     private FoodComponent foodComponent;
     private boolean fireResistance;
     private Item recipeRemainder;
+    private static final LinkedList<ItemEditor> effectiveEditors = new LinkedList<>();
 
     private ItemEditor(Item item) {
         itemEditors.put(item, this);
@@ -48,7 +49,7 @@ public class ItemEditor {
         this.revertVanilla();
     }
 
-    public static ItemEditor getInstance(Item item) {
+    private static ItemEditor getInstance(Item item) {
         ItemEditor editor = itemEditors.get(item);
         if (editor == null) {
             editor = new ItemEditor(item);
@@ -56,7 +57,21 @@ public class ItemEditor {
         return editor;
     }
 
-    public void revertVanilla() {
+    public static void applyFromModConfig() {
+        for (ItemEditor effectiveEditors : effectiveEditors) {
+            effectiveEditors.revertVanilla();
+            effectiveEditors.applyEdits();
+        }
+        effectiveEditors.clear();
+        for (ModConfig.ItemEditorConfig.ItemEditorUnit unit : ConfigManager.getConfig().itemEditorConfig().units()) {
+            ItemEditor editor = getInstance(unit.itemEntry().value());
+            effectiveEditors.add(editor);
+            editor.loadFromConfigUnit(unit);
+            editor.applyEdits();
+        }
+    }
+
+    private void revertVanilla() {
         this.maxStackSize = this.vanillaMaxStackSize;
         this.maxDamage = this.vanillaMaxDamage;
         this.rarity = this.vanillaRarity;
@@ -66,7 +81,7 @@ public class ItemEditor {
         this.recipeRemainder = this.vanillaRecipeRemainder;
     }
 
-    public void loadFromConfigUnit(ModConfig.ItemEditorConfig.ItemEditorUnit unit) {
+    private void loadFromConfigUnit(ModConfig.ItemEditorConfig.ItemEditorUnit unit) {
         unit.maxStackSize().ifPresent(size -> this.maxStackSize = size);
         unit.durability().ifPresent(durability -> this.maxDamage = durability);
         unit.fireResistant().ifPresent(resistant -> this.fireResistance = resistant);
@@ -76,7 +91,7 @@ public class ItemEditor {
         unit.wrappedFoodComponents().ifPresent(wrappedComponents -> this.foodComponent = wrappedComponents.createComponents());
     }
 
-    public void apply() {
+    private void applyEdits() {
         Reference2ObjectMap<ComponentType<?>, Object> underlyingMap = ReflectionUtils.getItemComponentsUnderlyingMap(this.carriedItem);
         if (this.itemDamageable) {
             underlyingMap.put(DataComponentTypes.MAX_DAMAGE, this.maxDamage);

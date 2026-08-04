@@ -16,7 +16,7 @@ public interface MythicLoginS2CPayload extends LoginQueryRequestPayload {
 
     @Override
     default void write(PacketByteBuf buf) {
-        PacketCodec<PacketByteBuf, MythicLoginS2CPayload> codec = (PacketCodec<PacketByteBuf, MythicLoginS2CPayload>) MythicNetwork.LOGIN_S2C_CODECS.get(this.mythicId());
+        PacketCodec<PacketByteBuf, MythicLoginS2CPayload> codec = (PacketCodec<PacketByteBuf, MythicLoginS2CPayload>) MythicNetwork.INSTANCE.LOGIN_S2C_CODECS.get(this.mythicId());
         buf.writeIdentifier(this.mythicId());
         codec.encode(buf, this);
     }

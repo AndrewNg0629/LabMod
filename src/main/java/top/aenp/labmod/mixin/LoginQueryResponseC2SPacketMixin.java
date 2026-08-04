@@ -27,7 +27,7 @@ public class LoginQueryResponseC2SPacketMixin {
                 if (queryId == MythicNetwork.QUERY_ID) {
                     if (buf.readBoolean()) {
                         Identifier mythicType = buf.readIdentifier();
-                        PacketCodec<PacketByteBuf, ? extends MythicLoginC2SPayload> codec = MythicNetwork.LOGIN_C2S_CODECS.get(mythicType);
+                        PacketCodec<PacketByteBuf, ? extends MythicLoginC2SPayload> codec = MythicNetwork.INSTANCE.LOGIN_C2S_CODECS.get(mythicType);
                         payload = codec != null ? codec.decode(buf) : null;
                     }
                 } else {

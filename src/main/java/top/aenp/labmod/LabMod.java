@@ -2,7 +2,6 @@ package top.aenp.labmod;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gson.*;
-import com.mojang.serialization.JsonOps;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.loader.api.FabricLoader;
@@ -15,13 +14,10 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import top.aenp.labmod.config.v2.prototype.ConfigManager;
 import top.aenp.labmod.config.v2.prototype.ModConfig;
 import top.aenp.labmod.item.DebuggerItem;
 import top.aenp.labmod.network.v2.prototype.*;
-import top.aenp.labmod.network.v2.prototype.test.TestCommonS2CPayload;
-import top.aenp.labmod.network.v2.prototype.test.TestLoginC2SPayload;
-import top.aenp.labmod.network.v2.prototype.test.TestLoginS2CPayload;
-import top.aenp.labmod.network.v2.prototype.test.TestPlayC2SPayload;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -46,8 +42,8 @@ public class LabMod implements ModInitializer {
 			new ModConfig.ModIdValidationConfig(false, List.of(), List.of()),
 			new ModConfig.Tweaks(
 					true,
-					new ModConfig.Tweaks.ToggleTweaksSection1(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false),
-					new ModConfig.Tweaks.ToggleTweaksSection2(false, false, false),
+					new ModConfig.Tweaks.LocalToggleTweaks1(false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false),
+					new ModConfig.Tweaks.SyncedToggleTweaks1(false, false, false),
 					new ModConfig.Tweaks.ValueTweaks(
 							new ModConfig.Tweaks.ValueTweaks.FireballAutoDiscarding(false, 200),
 							new ModConfig.Tweaks.ValueTweaks.StuffedShulkerBoxStacking(false, 1),
@@ -57,18 +53,21 @@ public class LabMod implements ModInitializer {
 							new ModConfig.Tweaks.ValueTweaks.PlayerDeathItemProtection(false, 12000, false, false)
 					)
 			),
-			new ModConfig.ItemEditorConfig(false, List.of())
+			new ModConfig.ItemEditorConfig(false, List.of()),
+			1
 	);
 
 	@Override
 	public void onInitialize() {
-		MythicNetwork.LOGIN_S2C_CODECS.put(TestLoginS2CPayload.ID, TestLoginS2CPayload.CODEC);
-		MythicNetwork.LOGIN_C2S_CODECS.put(TestLoginC2SPayload.ID, TestLoginC2SPayload.CODEC);
-		MythicNetwork.CUSTOM_PAYLOAD_CODECS.put(TestCommonS2CPayload.ID.id(), TestCommonS2CPayload.CODEC);
-		MythicNetwork.CUSTOM_PAYLOAD_CODECS.put(TestPlayC2SPayload.ID.id(), TestPlayC2SPayload.CODEC);
+		MythicNetwork.INSTANCE.initialize();
+
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.OPERATOR).register((itemGroup) -> itemGroup.add(DEBUGGER));
-		JsonElement jsonElement = ModConfig.CODEC.encodeStart(JsonOps.INSTANCE, TEST_CONFIG).getOrThrow();
-		LOGGER.info(GSON.toJson(jsonElement));
+
+		ConfigManager.initialize();
+		ConfigManager.getConfig();
+
+		//JsonElement jsonElement = ModConfig.CODEC.encodeStart(JsonOps.INSTANCE, ModConfig.DEFAULT_CONFIG).getOrThrow();
+		//LOGGER.info(GSON.toJson(jsonElement));
 		//TestRecords.test();
 		/*
 		String content = readResourceFile("test.json");
@@ -85,6 +84,15 @@ public class LabMod implements ModInitializer {
 		}
 
 		 */
+
+
+		//StatusEffectInstance instance = FoodComponents.GOLDEN_APPLE.effects().getFirst().effect();
+		//StatusEffectInstance. params = new StatusEffectInstance();
+		//JsonElement s2 = StatusEffectInstance.CODEC.encodeStart(JsonOps.INSTANCE, instance).getOrThrow();
+		//LOGGER.info(GSON.toJson(s2));
+		//Function<ModConfig, ModConfig.Tweaks.ValueTweaks.FireballAutoDiscarding> f1 = config0 -> config0.tweaks().valueTweaks().fireballAutoDiscarding();
+		//ModConfig.Tweaks t1 = f1.apply(ModConfig.DEFAULT_CONFIG);
+		//LOGGER.info(t1.toString());
 	}
 
 	public static Item registerItem(String itemKey, Item item) {

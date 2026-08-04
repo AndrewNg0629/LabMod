@@ -1,0 +1,168 @@
+{
+  "mod_enabled": true,
+  "multiplayer_support_enabled": true,
+  "mod_id_validation": {
+    "enabled": false,
+    "required_mods": [],
+    "prohibited_mods": []
+  },
+  "tweaks": {
+    "local_tweaks_enabled": false,
+    "throwable_fire_charge": false,
+    "large_fire_charge": false,
+    "creepers_dont_break_blocks": false,
+    "item_explosion_resistance": false,
+    "player_riding": false,
+    "player_riding_fall_protection": false,
+    "dispensable_tridents": false,
+    "tridents_return_from_void": false,
+    "tridents_damage_multiple_times": false,
+    "thrown_tridents_persist": false,
+    "villagers_always_zombify": false,
+    "bed_idle": false,
+    "keep_experience_after_death": false,
+    "always_drop_dragon_egg": false,
+    "armor_trim_pacify": false,
+    "suicide_command": false,
+    "carpet_fake_player_sleep_exclusion": false,
+    "editable_player_data": false,
+    "creative_player_void_resistance": false,
+    "fireball_auto_discarding": {
+      "enabled": false,
+      "discard_ticks": 200
+    },
+    "stuffed_shulker_box_stacking": {
+      "enabled": false,
+      "max_stack_size": 1
+    },
+    "shulker_box_nesting": {
+      "enabled": false,
+      "max_layers": 2
+    },
+    "warden_attributes_control": {
+      "enabled": false,
+      "max_health": 500.0,
+      "knockback_resistance": 1.0,
+      "melee_attack_damage": 30.0,
+      "melee_attack_knockback": 1.5,
+      "chasing_movement_speed": 1.2,
+      "attack_interval_ticks": 18
+    },
+    "warden_sonic_boom_control": {
+      "enabled": false,
+      "sonic_boom_enabled": true,
+      "sonic_boom_damage": 10.0,
+      "sonic_boom_knockback_factor": 1.0,
+      "sonic_boom_interval_ticks": 34
+    },
+    "player_death_item_protection": {
+      "enabled": false,
+      "item_despawn_ticks": 12000,
+      "prevent_mob_pickup": false,
+      "strict_pickup": false
+    }
+  },
+  "item_editor": {
+    "enabled": false,
+    "item_edits": [
+      {
+        "item": "minecraft:milk_bucket",
+        "max_stack_size": 1,
+        "fire_resistant": false,
+        "rarity": "common",
+        "crafting_remains": "minecraft:bucket",
+        "is_food": false,
+        "food_components": null
+      },
+      {
+        "item": "minecraft:experience_bottle",
+        "max_stack_size": 64,
+        "fire_resistant": false,
+        "rarity": "uncommon",
+        "crafting_remains": "minecraft:air",
+        "is_food": false,
+        "food_components": null
+      },
+      {
+        "item": "minecraft:wooden_pickaxe",
+        "durability": 59,
+        "fire_resistant": false,
+        "rarity": "common",
+        "crafting_remains": "minecraft:air",
+        "is_food": false,
+        "food_components": null
+      },
+      {
+        "item": "minecraft:netherite_ingot",
+        "max_stack_size": 64,
+        "fire_resistant": true,
+        "rarity": "common",
+        "crafting_remains": null,
+        "is_food": false,
+        "food_components": null
+      },
+      {
+        "item": "minecraft:mushroom_stew",
+        "max_stack_size": 1,
+        "fire_resistant": false,
+        "rarity": "common",
+        "crafting_remains": null,
+        "is_food": true,
+        "food_components": {
+          "nutrition": 6,
+          "saturation": 7.2,
+          "can_always_eat": false,
+          "eat_seconds": 1.6,
+          "eating_remains": "minecraft:bowl",
+          "effects": []
+        }
+      },
+      {
+        "item": "minecraft:apple",
+        "max_stack_size": 64,
+        "fire_resistant": false,
+        "rarity": "common",
+        "crafting_remains": null,
+        "is_food": true,
+        "food_components": {
+          "nutrition": 4,
+          "saturation": 2.4,
+          "can_always_eat": false,
+          "eat_seconds": 1.6,
+          "eating_remains": "minecraft:air",
+          "effects": []
+        }
+      },
+      {
+        "item": "minecraft:golden_apple",
+        "max_stack_size": 64,
+        "fire_resistant": false,
+        "rarity": "common",
+        "crafting_remains": "minecraft:air",
+        "is_food": true,
+        "food_components": {
+          "nutrition": 6,
+          "saturation": 9.6,
+          "can_always_eat": true,
+          "eat_seconds": 1.6,
+          "eating_remains": null,
+          "effects": [
+            {
+              "effect": "minecraft:absorption",
+              "level": 1,
+              "duration": 120,
+              "probability": 1.0
+            },
+            {
+              "effect": "minecraft:regeneration",
+              "level": 2,
+              "duration": 5,
+              "probability": 1.0
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "config_version": 0
+}

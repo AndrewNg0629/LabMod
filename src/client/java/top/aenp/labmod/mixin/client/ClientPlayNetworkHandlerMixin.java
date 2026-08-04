@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.aenp.labmod.LabMod;
+import top.aenp.labmod.config.v2.prototype.ConfigManager;
 import top.aenp.labmod.config.v2.prototype.NetworkSyncedConfig;
 import top.aenp.labmod.network.v2.prototype.injections.ClientPlayNetworkHandlerMethodInjections;
 import top.aenp.labmod.network.v2.prototype.payloads.MythicPlayS2CPayload;
@@ -39,6 +40,6 @@ public abstract class ClientPlayNetworkHandlerMixin extends ClientCommonNetworkH
 
     @Override
     public void labmod$onConfigPush(NetworkSyncedConfig config) {
-
+        ConfigManager.getInstance().onConfigPush(config);
     }
 }

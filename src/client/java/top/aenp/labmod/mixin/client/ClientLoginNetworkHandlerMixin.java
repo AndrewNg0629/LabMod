@@ -5,6 +5,7 @@ import net.minecraft.network.ClientConnection;
 import net.minecraft.network.packet.c2s.login.LoginQueryResponseC2SPacket;
 import net.minecraft.network.packet.s2c.login.LoginQueryRequestS2CPacket;
 import top.aenp.labmod.LabMod;
+import top.aenp.labmod.config.v2.prototype.ConfigManager;
 import top.aenp.labmod.config.v2.prototype.NetworkSyncedConfig;
 import top.aenp.labmod.network.v2.prototype.*;
 import org.spongepowered.asm.mixin.Final;
@@ -42,6 +43,6 @@ public class ClientLoginNetworkHandlerMixin implements ClientLoginNetworkHandler
 
     @Override
     public void labmod$onConfigPush(NetworkSyncedConfig config) {
-
+        ConfigManager.getInstance().onConfigPush(config);
     }
 }
