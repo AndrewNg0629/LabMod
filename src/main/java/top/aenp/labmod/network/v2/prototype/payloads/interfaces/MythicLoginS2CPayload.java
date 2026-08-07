@@ -1,4 +1,4 @@
-package top.aenp.labmod.network.v2.prototype.payloads;
+package top.aenp.labmod.network.v2.prototype.payloads.interfaces;
 
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;

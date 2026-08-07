@@ -1,10 +1,16 @@
 package top.aenp.labmod.mixin;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
+import com.mojang.authlib.GameProfile;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.packet.c2s.login.LoginQueryResponseC2SPacket;
 import net.minecraft.network.packet.s2c.login.LoginQueryRequestS2CPacket;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerLoginNetworkHandler;
 import net.minecraft.text.Text;
+import org.apache.commons.lang3.Validate;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -13,11 +19,15 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.aenp.labmod.LabMod;
+import top.aenp.labmod.ReflectionUtils;
+import top.aenp.labmod.config.v2.prototype.ConfigManager;
+import top.aenp.labmod.config.v2.prototype.ModConfig;
+import top.aenp.labmod.network.v2.prototype.payloads.*;
 import top.aenp.labmod.network.v2.prototype.*;
 import top.aenp.labmod.network.v2.prototype.injections.ServerLoginNetworkHandlerMethodInjections;
-import top.aenp.labmod.network.v2.prototype.payloads.MythicLoginC2SPayload;
-import top.aenp.labmod.network.v2.prototype.test.TestLoginC2SPayload;
-import top.aenp.labmod.network.v2.prototype.test.TestLoginS2CPayload;
+import top.aenp.labmod.network.v2.prototype.payloads.interfaces.MythicLoginC2SPayload;
+
+import java.util.Set;
 
 @Mixin(value = ServerLoginNetworkHandler.class, priority = 990)
 public abstract class ServerLoginNetworkHandlerMixin implements ServerLoginNetworkHandlerMethodInjections {
@@ -28,12 +38,76 @@ public abstract class ServerLoginNetworkHandlerMixin implements ServerLoginNetwo
     @Shadow
     public abstract void disconnect(Text reason);
 
-    @Unique private boolean testDone = false;
-    @Inject(method = "tick", at = @At(value = "HEAD"))
-    private void tick(CallbackInfo info) {
-        if (!this.testDone) {
-            this.testDone = true;
-            this.connection.send(new LoginQueryRequestS2CPacket(MythicNetwork.QUERY_ID, new TestLoginS2CPayload("Hello world!")));
+    @Shadow
+    protected abstract void sendSuccessPacket(GameProfile profile);
+
+    @Shadow
+    @Final
+    MinecraftServer server;
+    @Shadow
+    private @Nullable GameProfile profile;
+    @Unique private MythicNetwork.NegotiationStates negotiationState = MythicNetwork.NegotiationStates.VERSION_S2C;
+
+    @Unique
+    private void sendConfig() {
+        ModConfig modConfig = ConfigManager.getConfig();
+        this.connection.send(new LoginQueryRequestS2CPacket(MythicNetwork.QUERY_ID, new NetworkSyncedConfig(modConfig.tweaks().syncedToggleTweaks1(), modConfig.tweaks().valueTweaks().wardenAttributesControl(), modConfig.itemEditorConfig())));
+        if (!this.server.getPlayerManager().disconnectDuplicateLogins(this.profile)) {
+            ReflectionUtils.setLoginHandlerState((ServerLoginNetworkHandler) (Object) this, 5);
+        } else {
+            this.sendSuccessPacket(this.profile);
+        }
+    }
+
+    @Inject(method = "tickVerify", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/PlayerManager;disconnectDuplicateLogins(Lcom/mojang/authlib/GameProfile;)Z"), cancellable = true)
+    private void onTickVerify(GameProfile profile, CallbackInfo info) {
+        if (!this.connection.isLocal() && ConfigManager.getConfig().multiplayerSupportEnabled()) {
+            ReflectionUtils.setLoginHandlerState((ServerLoginNetworkHandler) (Object) this, 3);
+            this.connection.send(new LoginQueryRequestS2CPacket(MythicNetwork.QUERY_ID, new LoginModVersionS2CPayload(LabMod.MOD_VERSION)));
+            this.negotiationState = MythicNetwork.NegotiationStates.VERSION_C2S;
+            info.cancel();
+        }
+    }
+
+    @Override
+    public void labmod$onModVersion(LoginModVersionC2SPayload version) {
+        Validate.validState(this.negotiationState == MythicNetwork.NegotiationStates.VERSION_C2S, "Unexpected mod version c2s packet.");
+        if (MythicNetwork.NETWORK_COMPATIBLE_VERSIONS.contains(version.modVersion())) {
+            if (ConfigManager.getConfig().modIdValidationConfig().enabled()) {
+                this.negotiationState = MythicNetwork.NegotiationStates.MOD_LIST;
+                this.connection.send(new LoginQueryRequestS2CPacket(MythicNetwork.QUERY_ID, new LoginModIdRequestS2CPayload()));
+            } else {
+                this.sendConfig();
+            }
+        } else {
+            this.disconnect(Text.of("Incompatible client version: " + version.modVersion()));
+        }
+    }
+
+    @Override
+    public void labmod$onModIdList(LoginModIdListC2SPayload list) {
+        Validate.validState(this.negotiationState == MythicNetwork.NegotiationStates.MOD_LIST, "Unexpected mod ID list packet.");
+        ImmutableSet<String> receivedMods = ImmutableSet.copyOf(list.modIdList());
+        ImmutableSet<String> missingMods = Sets.difference(Set.copyOf(ConfigManager.getConfig().modIdValidationConfig().requiredMods()), receivedMods).immutableCopy();
+        ImmutableSet<String> excessMods = Sets.intersection(Set.copyOf(ConfigManager.getConfig().modIdValidationConfig().prohibitedMods()), receivedMods).immutableCopy();
+        boolean passed = true;
+        StringBuilder failMessage = new StringBuilder("Your installed mods don't meet the requirements to join this server.");
+        if (!missingMods.isEmpty()) {
+            passed = false;
+            failMessage.append("\nInstall those mods: ");
+            String missingModsString = missingMods.toString();
+            failMessage.append(missingModsString, 1, missingModsString.length() - 1);
+        }
+        if (!excessMods.isEmpty()) {
+            passed = false;
+            failMessage.append("\nRemove or disable those mods: ");
+            String excessModsString = excessMods.toString();
+            failMessage.append(excessModsString, 1, excessModsString.length() - 1);
+        }
+        if (passed) {
+            this.sendConfig();
+        } else {
+            this.disconnect(Text.of(failMessage.toString()));
         }
     }
 
@@ -44,14 +118,9 @@ public abstract class ServerLoginNetworkHandlerMixin implements ServerLoginNetwo
                 MythicLoginC2SPayload payload = (MythicLoginC2SPayload) packet.response();
                 payload.handle(this);
             } else {
-                this.disconnect(Text.of("Please have labmod installed."));
+                this.disconnect(Text.of(String.format("Please have LabMod %s installed.", LabMod.MOD_VERSION)));
             }
             info.cancel();
         }
-    }
-
-    @Override
-    public void labmod$onTestLoginC2S(TestLoginC2SPayload payload) {
-        LabMod.LOGGER.info("Server received: {}", payload.hello());
     }
 }

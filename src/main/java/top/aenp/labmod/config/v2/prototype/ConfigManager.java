@@ -6,8 +6,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
+import top.aenp.labmod.EnvironmentDetection;
 import top.aenp.labmod.LabMod;
 import top.aenp.labmod.network.v2.prototype.MythicNetwork;
+import top.aenp.labmod.network.v2.prototype.payloads.NetworkSyncedConfig;
 
 import java.io.File;
 import java.io.FileReader;
@@ -33,7 +35,7 @@ public class ConfigManager {
     public ConfigManager(ModConfig initialConfig) {
         this.modEnabled = initialConfig.modEnabled();
         this.multiplayerSupportEnabled = initialConfig.multiplayerSupportEnabled();
-        this.modIdValidationConfig = initialConfig.modIdValidationConfig();
+        this.modIdValidationConfig = initialConfig.modIdValidationConfig().enabled() ? initialConfig.modIdValidationConfig() : ModConfig.DEFAULT_CONFIG.modIdValidationConfig();
         this.configFromFile = initialConfig;
         this.combineConfig();
     }
@@ -138,6 +140,7 @@ public class ConfigManager {
         this.configFromNetwork = syncedConfig;
         this.combineConfig();
         this.applyBakedConfig();
+        LabMod.LOGGER.info("Applied config from the server.");
     }
 
     public void exitMythicServerPlay() {
@@ -152,6 +155,7 @@ public class ConfigManager {
 
     private void combineConfig() {
         ModConfig.Tweaks.ValueTweaks.WardenAttributesControl wardenAttributesControlConfig = this.configFromNetwork != null ? this.configFromNetwork.wardenAttributesControl() : this.configFromFile.tweaks().valueTweaks().wardenAttributesControl();
+        ModConfig.ItemEditorConfig itemEditorConfig = this.configFromNetwork != null ? this.configFromNetwork.itemEditorConfig() : this.configFromFile.itemEditorConfig();
         this.combinedConfig = this.modEnabled ?
                 new ModConfig(
                         true,
@@ -170,7 +174,7 @@ public class ConfigManager {
                                         this.configFromFile.tweaks().valueTweaks().playerDeathItemProtection().enabled() ? this.configFromFile.tweaks().valueTweaks().playerDeathItemProtection() : ModConfig.DEFAULT_CONFIG.tweaks().valueTweaks().playerDeathItemProtection()
                                 )
                         ) : ModConfig.DEFAULT_CONFIG.tweaks(),
-                        this.configFromFile.itemEditorConfig().enabled() ? configFromFile.itemEditorConfig() : ModConfig.DEFAULT_CONFIG.itemEditorConfig(),
+                        itemEditorConfig.enabled() ? itemEditorConfig : ModConfig.DEFAULT_CONFIG.itemEditorConfig(),
                         this.configFromFile.configVersion()
                 )
         : ModConfig.DEFAULT_CONFIG;

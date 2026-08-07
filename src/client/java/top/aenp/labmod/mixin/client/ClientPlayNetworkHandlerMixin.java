@@ -13,9 +13,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.aenp.labmod.LabMod;
 import top.aenp.labmod.config.v2.prototype.ConfigManager;
-import top.aenp.labmod.config.v2.prototype.NetworkSyncedConfig;
+import top.aenp.labmod.network.v2.prototype.payloads.NetworkSyncedConfig;
 import top.aenp.labmod.network.v2.prototype.injections.ClientPlayNetworkHandlerMethodInjections;
-import top.aenp.labmod.network.v2.prototype.payloads.MythicPlayS2CPayload;
+import top.aenp.labmod.network.v2.prototype.payloads.interfaces.MythicPlayS2CPayload;
 import top.aenp.labmod.network.v2.prototype.test.TestCommonS2CPayload;
 import top.aenp.labmod.network.v2.prototype.test.TestPlayC2SPayload;
 

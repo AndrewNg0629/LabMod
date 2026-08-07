@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import top.aenp.labmod.LabMod;
-import top.aenp.labmod.network.v2.prototype.payloads.MythicPlayC2SPayload;
+import top.aenp.labmod.network.v2.prototype.payloads.interfaces.MythicPlayC2SPayload;
 import top.aenp.labmod.network.v2.prototype.injections.ServerPlayNetworkHandlerMethodInjections;
 import top.aenp.labmod.network.v2.prototype.test.TestPlayC2SPayload;
 

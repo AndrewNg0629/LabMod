@@ -1,4 +1,4 @@
-package top.aenp.labmod.config.v2.prototype;
+package top.aenp.labmod.network.v2.prototype.payloads;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -8,10 +8,11 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
+import top.aenp.labmod.config.v2.prototype.ModConfig;
 import top.aenp.labmod.network.v2.prototype.injections.ClientLoginNetworkHandlerMethodInjections;
 import top.aenp.labmod.network.v2.prototype.injections.ClientPlayNetworkHandlerMethodInjections;
-import top.aenp.labmod.network.v2.prototype.payloads.MythicLoginS2CPayload;
-import top.aenp.labmod.network.v2.prototype.payloads.MythicPlayS2CPayload;
+import top.aenp.labmod.network.v2.prototype.payloads.interfaces.MythicLoginS2CPayload;
+import top.aenp.labmod.network.v2.prototype.payloads.interfaces.MythicPlayS2CPayload;
 
 public record NetworkSyncedConfig(
         ModConfig.Tweaks.SyncedToggleTweaks1 syncedToggleTweaks1,

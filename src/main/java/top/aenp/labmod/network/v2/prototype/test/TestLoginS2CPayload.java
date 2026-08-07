@@ -4,7 +4,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.util.Identifier;
 import top.aenp.labmod.network.v2.prototype.injections.ClientLoginNetworkHandlerMethodInjections;
-import top.aenp.labmod.network.v2.prototype.payloads.MythicLoginS2CPayload;
+import top.aenp.labmod.network.v2.prototype.payloads.interfaces.MythicLoginS2CPayload;
 
 public record TestLoginS2CPayload(String hello) implements MythicLoginS2CPayload {
     public static final Identifier ID = Identifier.of("labmod", "test_s2c");
@@ -26,6 +26,5 @@ public record TestLoginS2CPayload(String hello) implements MythicLoginS2CPayload
 
     @Override
     public void handle(ClientLoginNetworkHandlerMethodInjections handler) {
-        handler.labmod$onTestLoginS2C(this);
     }
 }
