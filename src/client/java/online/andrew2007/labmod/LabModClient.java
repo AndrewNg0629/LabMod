@@ -5,6 +5,5 @@ import net.fabricmc.api.ClientModInitializer;
 public class LabModClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
-		//ClientLifecycleEvents.CLIENT_STARTED.register(client -> ConfigLoader.onModInit());
 	}
 }

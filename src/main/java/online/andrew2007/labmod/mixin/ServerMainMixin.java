@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Main.class)
-public class SetIsDevelopment {
+public class ServerMainMixin {
     @Inject(at = @At(value = "HEAD"), method = "main")
     private static void setIsDevelopment(String[] args, CallbackInfo info) {
         if (EnvironmentDetection.isYarn) {

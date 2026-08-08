@@ -3,10 +3,7 @@
   "package": "online.andrew2007.labmod.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "LoginQueryRequestS2CPacketMixin",
-    "LoginStatesMixin",
-    "ServerLoginNetworkHandlerMixin",
-    "SetIsDevelopment"
+    "ServerMainMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -16,10 +16,6 @@ import java.util.Objects;
 public class LabMod implements ModInitializer {
 	public static final String MOD_ID = "labmod";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-	public static final ArrayList<String> allMods = new ArrayList<>();
-	public static final String MOD_VERSION = Objects.requireNonNull(FabricLoader.getInstance().getModContainer(MOD_ID).orElse(null)).getMetadata().getVersion().getFriendlyString();
-	public static final String GAME_VERSION = MinecraftVersion.CURRENT.getName();
-	public static final ImmutableSet<String> NETWORK_COMPATIBLE_VERSIONS = ImmutableSet.of(MOD_ID);
 
 	@Override
 	public void onInitialize() {
